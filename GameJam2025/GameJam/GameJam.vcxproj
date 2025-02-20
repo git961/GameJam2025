@@ -148,6 +148,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Scene\Help\HelpScene.cpp" />
+    <ClCompile Include="Scene\InGame\InGameScene.cpp" />
+    <ClCompile Include="Scene\Result\ResultScene.cpp" />
+    <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Utility\FPS.cpp" />
+    <ClCompile Include="Utility\PadInputManager.cpp" />
+    <ClCompile Include="Utility\ResourceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\Help\HelpScene.h" />
+    <ClInclude Include="Scene\InGame\InGameScene.h" />
+    <ClInclude Include="Scene\Result\ResultScene.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\Title\TitleScene.h" />
+    <ClInclude Include="Utility\Enum.h" />
+    <ClInclude Include="Utility\FPS.h" />
+    <ClInclude Include="Utility\Geometry.h" />
+    <ClInclude Include="Utility\PadInputManager.h" />
+    <ClInclude Include="Utility\ResourceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
