@@ -43,7 +43,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			manager->Update();
 			ScreenFlip();
 
-			if (pad_input->GetKeyInputState(KEY_INPUT_ESCAPE) == eInputState::eRelease)
+			//Backボタンを押したらゲーム終了
+			if (pad_input->GetKeyInputState(XINPUT_BUTTON_BACK) == eInputState::eRelease)
 			{
 				break;
 			}

@@ -10,8 +10,8 @@ eSceneType ResultScene::Update()
 {
 	PadInputManager* pad_input = PadInputManager::GetInstance();
 
-	//zを押したらタイトルへ戻る
-	if (pad_input->GetKeyInputState(PAD_INPUT_B) == eInputState::ePress)
+	//Bを押したらタイトルへ戻る
+	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
 	{
 		return eSceneType::eTitle;
 	}
@@ -22,7 +22,7 @@ eSceneType ResultScene::Update()
 void ResultScene::Draw() const
 {	
 	DrawString(10, 10, "Result\n", GetColor(255, 255, 255));
-	DrawString(10, 26, "Z:Title", GetColor(255, 255, 255));
+	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
 
 }
 

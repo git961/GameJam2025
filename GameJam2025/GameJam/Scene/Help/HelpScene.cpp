@@ -10,7 +10,7 @@ eSceneType HelpScene::Update()
 {
 	PadInputManager* pad_input = PadInputManager::GetInstance();
 
-	if (pad_input->GetKeyInputState(KEY_INPUT_X) == eInputState::ePress)
+	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
 	{
 		return eSceneType::eTitle;
 	}
@@ -21,7 +21,7 @@ void HelpScene::Draw() const
 {
 	DrawString(10, 10, "HelpScene\n", GetColor(255, 255, 255));
 	//DrawString(10, 26, "Z:インゲーム\nX:タイトル\nに遷移します", GetColor(255, 255, 255));
-	DrawString(10, 26, "X:Title", GetColor(255, 255, 255));
+	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
 }
 
 void HelpScene::Finalize()

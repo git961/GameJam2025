@@ -5,7 +5,7 @@ class InGameScene :
     public SceneBase
 {
 private:
-    int spawn_time_count;
+
 public:
     InGameScene();
     virtual ~InGameScene();

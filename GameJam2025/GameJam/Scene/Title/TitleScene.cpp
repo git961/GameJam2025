@@ -10,15 +10,17 @@ eSceneType TitleScene::Update()
 {
 	PadInputManager* pad_input = PadInputManager::GetInstance();
 
+	//Bボタンが押されたら
 	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
 	{
+		//インゲーム画面に移動
 		return eSceneType::eInGame;
 	}
-	if (pad_input->GetKeyInputState(PAD_INPUT_A) == eInputState::ePress)
+	if (pad_input->GetKeyInputState(XINPUT_BUTTON_A) == eInputState::ePress)
 	{
 		return eSceneType::eHelp;
 	}
-	if (pad_input->GetKeyInputState(PAD_INPUT_X) == eInputState::ePress)
+	if (pad_input->GetKeyInputState(XINPUT_BUTTON_X) == eInputState::ePress)
 	{
 		return eSceneType::eEnd;
 	}
@@ -28,10 +30,8 @@ eSceneType TitleScene::Update()
 
 void TitleScene::Draw() const
 {
-	//DrawString(10, 10, "タイトル画面です\n", GetColor(255, 255, 255));
 	DrawString(10, 10, "Title\n", GetColor(255, 255, 255));
-	//DrawString(10, 26, "Z:インゲーム\nX:ヘルプ\nC:ゲーム終了\nに遷移します", GetColor(255, 255, 255));
-	DrawString(10, 26, "Z:InGame\nX:Help\nC:GameEnd\nに遷移します", GetColor(255, 255, 255));
+	DrawString(10, 26, "B:InGame\nA:Help\nX:GameEnd\n", GetColor(255, 255, 255));
 }
 
 void TitleScene::Finalize()
