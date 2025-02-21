@@ -7,6 +7,7 @@ class TitleScene :
 private:
     int cursor_number;
     int arrow_image;
+    int Title_image;
     int cursor_y;
 
 

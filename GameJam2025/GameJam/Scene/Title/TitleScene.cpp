@@ -9,7 +9,8 @@ void TitleScene::Initialize()
 {
 	cursor_number = 0;
 	cursor_y = 360;
-	arrow_image = LoadGraph("Resource/Images/arrow.png");
+	arrow_image = LoadGraph("Resource/Images/Title/arrow.png");
+	Title_image = LoadGraph("Resource/Image/Title/Title.png");
 
 }
 
@@ -40,13 +41,15 @@ eSceneType TitleScene::Update()
 	SelectCursor();
 
 
-
+	
 	return GetNowSceneType();
 }
 
 void TitleScene::Draw() const
 {
 	DrawString(10, 10, "Title\n", GetColor(255, 255, 255));
+	DrawGraph(0, 0, Title_image, TRUE);
+	//DrawExtendGraph(0, 0, 640, 480, Title_image, TRUE);
 
 	switch (cursor_number)
 	{
@@ -93,6 +96,7 @@ void TitleScene::SelectCursor()
 
 void TitleScene::Finalize()
 {
+
 	if (background_image != NULL)
 	{
 		DeleteGraph(background_image);
