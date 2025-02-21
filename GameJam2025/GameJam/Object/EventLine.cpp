@@ -65,6 +65,8 @@ void EventLine::Update()
 
 void EventLine::Draw() const
 {
+	//仮背景　見やすいように
+	DrawBox(0, 0, 640, 480, 0x999999, TRUE);
 	if (is_moving_up == true)
 	{
 		DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0x00ffff, TRUE);
