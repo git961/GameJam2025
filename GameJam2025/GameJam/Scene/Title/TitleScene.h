@@ -5,6 +5,8 @@ class TitleScene :
     public SceneBase
 {
 private:
+    int cursor_number;
+
 
 public:
     virtual void Initialize() override;

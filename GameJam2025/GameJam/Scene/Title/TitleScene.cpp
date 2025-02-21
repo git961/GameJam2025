@@ -2,9 +2,12 @@
 #include "../../Utility/PadInputManager.h"
 #include "DxLib.h"
 
+
 void TitleScene::Initialize()
 {
+	cursor_number = 0;
 }
+
 
 eSceneType TitleScene::Update()
 {
@@ -13,17 +16,23 @@ eSceneType TitleScene::Update()
 	//Bボタンが押されたら
 	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
 	{
-		//インゲーム画面に移動
-		return eSceneType::eInGame;
+		switch (cursor_number)
+		{
+		case 0:
+			//インゲーム画面に移動
+			return eSceneType::eInGame;
+		case 1:
+			//ヘルプ
+			return eSceneType::eHelp;
+		case 2:
+			return eSceneType::eEnd;
+
+		default:
+			break;
+		}
 	}
-	if (pad_input->GetKeyInputState(XINPUT_BUTTON_A) == eInputState::ePress)
-	{
-		return eSceneType::eHelp;
-	}
-	if (pad_input->GetKeyInputState(XINPUT_BUTTON_X) == eInputState::ePress)
-	{
-		return eSceneType::eEnd;
-	}
+
+
 
 	return GetNowSceneType();
 }
