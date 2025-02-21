@@ -14,6 +14,7 @@ InGameScene::~InGameScene()
 void InGameScene::Initialize()
 {
 	ResourceManager* rm = ResourceManager::GetInstance();
+	score->Initialize();
 }
 
 eSceneType InGameScene::Update()
@@ -25,7 +26,10 @@ eSceneType InGameScene::Update()
 		return eSceneType::eResult;
 	}
 
+	score->Update();
+
 	return __super::Update();
+
 }
 
 void InGameScene::Draw() const

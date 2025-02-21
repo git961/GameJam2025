@@ -1,10 +1,12 @@
 #pragma once
 #include "../SceneBase.h"
+#include"../../Object/Score.h"
 
 class InGameScene :
     public SceneBase
 {
 private:
+    Score* score = new Score;
 
 public:
     InGameScene();
