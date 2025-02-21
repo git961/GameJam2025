@@ -10,6 +10,7 @@ SceneBase::~SceneBase()
 	this->Finalize();
 }
 
+//初期化処理
 void SceneBase::Initialize()
 {
 }
