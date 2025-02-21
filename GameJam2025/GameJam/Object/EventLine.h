@@ -16,6 +16,7 @@ private:
 public:
 	EventLine();
 	~EventLine();
+	void Initialize();//初期化
 	void Update();
 	void Draw()const;
 
