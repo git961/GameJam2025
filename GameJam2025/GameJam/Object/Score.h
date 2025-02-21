@@ -1,4 +1,11 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;//std::を省略
+
 
 //enum評価クラス
 enum class eEvaluation
@@ -12,18 +19,23 @@ enum class eEvaluation
 class Score
 {
 private:
-	int score;				//初期スコア	
+	int score;				//初期スコア
+	int patient;			//患者の人数
+
 	int addscore;			//加算するスコア
+	int new_score;			//新しいスコア
+	int old_score;			//前回スコア
 	int eventline;			//イベント線(仮)
 
 public:
-	Score();
-	~Score();
-
 	void Initialize();
 	void Update();
 	void Draw();
-	void Finalize();		
+	void Finalize();
+
 	void Evaluate();
+
+	void WriteTxtFile();
+	int ReadTxtFile();
 };
 

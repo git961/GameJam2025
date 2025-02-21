@@ -179,6 +179,9 @@
     <ClInclude Include="Utility\PadInputManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\Ranking\Ranking.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

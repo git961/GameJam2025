@@ -1,19 +1,11 @@
 #include "Score.h"
 #include "DxLib.h"
 
-Score::Score()
-{
-
-}
-
-Score::~Score()
-{
-
-}
-
 void Score::Initialize() 
 {
 	score = 0;
+	patient = 0;
+
 	addscore = 100;
 	eventline = 1000;
 }
@@ -21,6 +13,8 @@ void Score::Initialize()
 void Score::Update() 
 {
 	Evaluate();
+	WriteTxtFile();
+	ReadTxtFile();
 }
 
 void Score::Draw()
@@ -72,4 +66,45 @@ void Score::Evaluate()
 	default:
 		break;
 	}
+}
+
+void Score::WriteTxtFile()
+{
+	ofstream outFile("C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt");
+
+	if (outFile.is_open())
+	{
+		
+		outFile << score << " "<< patient << endl;
+	}
+	else
+	{
+		cerr << "ファイルを開けませんでした。" << endl;
+	}
+}
+
+int Score::ReadTxtFile()
+{
+	ifstream file("C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt");
+
+	if (!file) {
+		std::cerr << "ファイルを開けませんでした！" << std::endl;
+
+		return 1;
+	}
+
+	// ファイルを1行ずつ読み込む
+	string line;
+
+	//ファイルを一行ずつ読み込み、配列に格納
+	while (getline(file, line)) 
+	{
+		// 読み込んだ行を表示
+		DrawFormatString(260, 10, GetColor(255, 255, 255), "%s\n", line.c_str(), TRUE);
+	}
+
+	// ファイルを閉じる
+	file.close();
+
+	return 0;
 }
