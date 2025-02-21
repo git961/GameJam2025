@@ -1,10 +1,13 @@
 #include "InGameScene.h"
 #include "../../Utility/PadInputManager.h"
 #include "../../Utility/ResourceManager.h"
+#include "../../Object/EventLine.h"
 #include "DxLib.h"
+
 
 InGameScene::InGameScene()
 {
+	event_line = new EventLine();
 }
 
 InGameScene::~InGameScene()
@@ -26,6 +29,9 @@ eSceneType InGameScene::Update()
 		return eSceneType::eResult;
 	}
 
+	//イベントライン更新
+	event_line->Update();
+
 	score->Update();
 
 	return __super::Update();
@@ -37,6 +43,8 @@ void InGameScene::Draw() const
 	__super::Draw();
 	DrawString(10, 10, "InGame\n", GetColor(255, 255, 255));
 	DrawString(10, 26, "B:Result", GetColor(255, 255, 255));
+
+	event_line->Draw();
 }
 
 void InGameScene::Finalize()

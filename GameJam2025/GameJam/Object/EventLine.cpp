@@ -58,7 +58,8 @@ void EventLine::Update()
 
 void EventLine::Draw() const
 {
-	DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
+	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
+	//DrawTriangleAA(location.x,location.y,location.x+30.0f,location.y-30.0f,location.x+30.0f)
 }
 
 bool EventLine::CheckStop()
