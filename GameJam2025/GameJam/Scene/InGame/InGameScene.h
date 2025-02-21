@@ -8,6 +8,7 @@ class InGameScene :
 private:
     Score* score = new Score;
     class EventLine* event_line;
+    class NeedleAndPatient* n_and_p;//注射と患者のクラス
 
 public:
     InGameScene();

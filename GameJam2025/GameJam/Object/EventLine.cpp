@@ -4,19 +4,24 @@
 
 EventLine::EventLine()
 {
-	//240.0fは現在の画面の半分のサイズ
-	stop_line_bottom = 240.0f;
-	stop_line_up = 0.0f;
-	//120.0fは画面の半分のサイズのさらに半分
-	location.y = 120.0f;
-	location.x = 320.0f;
-	stop_location_y = 0;
-	is_moving_up = true;
-	is_stop = false;
+	Initialize();
 }
 
 EventLine::~EventLine()
 {
+}
+
+void EventLine::Initialize()
+{
+	//240.0fは現在の画面の半分のサイズ+10.0f
+	stop_line_bottom = 250.0f;
+	stop_line_up = 10.0f;
+	//120.0fは画面の半分のサイズのさらに半分
+	location.y = 120.0f;
+	location.x = 400.0f;
+	stop_location_y = 0;
+	is_moving_up = true;
+	is_stop = false;
 }
 
 void EventLine::Update()
@@ -45,21 +50,32 @@ void EventLine::Update()
 		}
 		else
 		{
-			location.y -= 2.4f;
+			location.y += 2.4f;
 		}
 	}
 
-	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
+	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress
+		|| CheckHitKey(KEY_INPUT_J)==TRUE)
 	{
 		is_stop = true;
 		stop_location_y = (int)location.y;
 	}
+
 }
 
 void EventLine::Draw() const
 {
+	if (is_moving_up == true)
+	{
+		DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0x00ffff, TRUE);
+	}
+	else
+	{
+		DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0xffff00, TRUE);
+
+	}
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
-	//DrawTriangleAA(location.x,location.y,location.x+30.0f,location.y-30.0f,location.x+30.0f)
+	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y - 30.0f, location.x + 30.0f, location.y + 30.0f, 0xffffff, TRUE);
 }
 
 bool EventLine::CheckStop()
