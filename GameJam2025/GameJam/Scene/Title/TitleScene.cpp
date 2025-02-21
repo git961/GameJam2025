@@ -4,10 +4,12 @@
 #include "DxLib.h"
 
 
+
 void TitleScene::Initialize()
 {
 	cursor_number = 0;
 	cursor_y = 360;
+	arrow_image = LoadGraph("Resource/Images/arrow.png");
 
 }
 
