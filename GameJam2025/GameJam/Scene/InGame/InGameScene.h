@@ -11,6 +11,8 @@ private:
     class NeedleAndPatient* n_and_p;//注射と患者のクラス
 	int time;                       // 時間を保持する変数
 	unsigned int previousTime;      // 前回の時間を保持する変数
+    unsigned int countdown_after_timeup;
+    bool time_up_flag;
 
 public:
     InGameScene();
