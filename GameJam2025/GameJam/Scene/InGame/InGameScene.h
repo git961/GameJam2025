@@ -8,11 +8,13 @@ class InGameScene :
 private:
     Score* score = new Score;
     class EventLine* event_line;
-    class NeedleAndPatient* n_and_p;//注射と患者のクラス
+    class NeedleAndPatient* n_and_p_black;//注射と患者のクラス
+    class NeedleAndPatient* n_and_p_gray;//注射と患者のクラス
 	int time;                       // 時間を保持する変数
 	unsigned int previousTime;      // 前回の時間を保持する変数
     unsigned int countdown_after_timeup;
     bool time_up_flag;
+
 
 public:
     InGameScene();
@@ -26,5 +28,11 @@ public:
 
 public:
     virtual eSceneType GetNowSceneType() const override;
+
+private:
+    //n_and_pのラインのｙ座標を返す
+    int GetStopLine();
+    //n_and_pのどちらがアップデート開始するかを判断する関数
+    void Start_NAndP();
 };
 

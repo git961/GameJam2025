@@ -15,7 +15,8 @@ countdown_after_timeup(3),  // タイムアップ後のカウントダウン時�
 time_up_flag(false)			// タイムアップフラグ
 {
 	event_line = new EventLine();
-	n_and_p = new NeedleAndPatient(event_line);
+	n_and_p_black = new NeedleAndPatient(event_line,0);
+	n_and_p_gray = new NeedleAndPatient(event_line,1);
 }
 
 InGameScene::~InGameScene()
@@ -25,7 +26,6 @@ InGameScene::~InGameScene()
 
 void InGameScene::Initialize()
 {
-	ResourceManager* rm = ResourceManager::GetInstance();
 	score->Initialize();
 	previousTime = GetNowCount(); // 前回の時間を初期化
 	time_up_flag = false;		  // タイムアップフラグを初期化
@@ -80,9 +80,10 @@ eSceneType InGameScene::Update()
 	//イベントライン更新
 	event_line->Update();
 	//注射針と患者の更新
-	n_and_p->Update();
+	n_and_p_black->Update();
+	n_and_p_gray->Update();
 	score->Update();
-
+	Start_NAndP();
 	return __super::Update();
 }
 
@@ -93,7 +94,9 @@ void InGameScene::Draw() const
 	DrawString(10, 26, "B:Result", GetColor(255, 255, 255));
 	
 	event_line->Draw();
-	n_and_p->Draw();
+	n_and_p_black->Draw();
+	n_and_p_gray->Draw();
+
 	if (!time_up_flag) {
 		DrawFormatString(10, 50, GetColor(255, 255, 255), "残り時間 : %d", time); // カウントダウンを描画
 	}
@@ -111,4 +114,32 @@ void InGameScene::Finalize()
 eSceneType InGameScene::GetNowSceneType() const
 {
 	return eSceneType::eInGame;
+}
+
+int InGameScene::GetStopLine()
+{
+	if (n_and_p_black->IsRetrunY() == true)
+	{
+		return n_and_p_black->GetStopY();
+	}
+
+	if (n_and_p_gray->IsRetrunY() == true)
+	{
+		return n_and_p_gray->GetStopY();
+	}
+
+	return 0;
+}
+
+void InGameScene::Start_NAndP()
+{
+	if (n_and_p_black->CheckNextStart() == true)
+	{
+		n_and_p_gray->SetStart();
+	}
+
+	if (n_and_p_gray->CheckNextStart() == true)
+	{
+		n_and_p_black->SetStart();
+	}
 }

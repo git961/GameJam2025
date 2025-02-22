@@ -3,10 +3,12 @@
 #include <vector>
 
 enum class State{
+	wait,//待機状態
 	come_out,//患者が出て針が降ってくる状態
 	eventline_move,//イベントラインが止まるのを待つ状態
 	injection,//注射する
 	go_out,//右へ移動する
+	finish,//終了状態
 };
 
 class NeedleAndPatient
@@ -20,15 +22,20 @@ private:
 	std::vector<int> needle_image;//注射針の画像
 	std::vector<int> patient;//患者の画像
 	double p_size;//患者画像のサイズ
-	std::vector<int> column;//仮
+	std::vector<int> column;//仮の行列
 	Vector2D liquid_pos;//液体の座標
 	float liquid_size;//液体のサイズ変えるよう
 
 	int patient_sum;//患者の健康具合
-	int el_sum;//イベントラインの数値
+	int el_scaled_y;//イベントラインの数値を100にしたものを代入
+	int face_alpha;//表情の透過
+	
+	bool is_next_start;//次のオブジェクトを生成していいか
+
+	bool is_black;//黒くするか
 
 public:
-	NeedleAndPatient(class EventLine *set_class);
+	NeedleAndPatient(class EventLine *set_class,int set_num);
 	~NeedleAndPatient();
 	void Initialize();//初期化
 	void Update();
@@ -36,5 +43,10 @@ public:
 
 	//ストップさせる高さのｙ座標を返す
 	int GetStopY() { return stop_y; }
+	//次のオブジェクトを生成していいかx
+	bool CheckNextStart() { return is_next_start; }
+	//y座標を返しても良いか
+	bool IsRetrunY();
+	//スタートさせる
+	void SetStart() { state = State::come_out; }
 };
-

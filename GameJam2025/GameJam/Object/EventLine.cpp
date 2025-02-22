@@ -1,9 +1,16 @@
 #include "EventLine.h"
 #include "../Utility/PadInputManager.h"
+#include "../Utility/ResourceManager.h"
 #include "DxLib.h"
 
 EventLine::EventLine()
 {
+	//画像を読み込む
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = rm->GetImages("Resource/Image/InGame/triangle.png");
+	triangle_img.push_back(tmp[0]);
+
 	Initialize();
 }
 
@@ -17,12 +24,13 @@ void EventLine::Initialize()
 	stop_line_bottom = 250.0f;
 	stop_line_up = 10.0f;
 	//120.0fは画面の半分のサイズのさらに半分
-	location.y = 120.0f;
-	location.x = 400.0f;
+	location.y = 180.0f;
+	location.x = 450.0f;
 	stop_location_y = 0;
 	is_moving_up = true;
 	is_stop = false;
 	is_start = false;
+	speed = 6.0f;
 }
 
 void EventLine::Update()
@@ -48,11 +56,11 @@ void EventLine::Update()
 		//もし上がって良かったら
 		if (is_moving_up == true)
 		{
-			location.y -= 2.4f;
+			location.y -= speed;
 		}
 		else
 		{
-			location.y += 2.4f;
+			location.y += speed;
 		}
 	}
 
@@ -69,21 +77,22 @@ void EventLine::Draw() const
 {
 	//仮背景　見やすいように
 	DrawBox(0, 0, 640, 480, 0x999999, TRUE);
-	if (is_start == true) {
-		if (is_moving_up == true)
-		{
-			DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0x00ffff, TRUE);
-		}
-		else
-		{
-			DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0xffff00, TRUE);
-
-		}
+	if (is_start == true)
+	{
+		DrawRotaGraphF(location.x, location.y, 3, 0, triangle_img[0], TRUE);
 	}
 
-	DrawFormatString(100, 120, 0x000000, "line_y:%f",location.y);
+	//DrawFormatString(100, 120, 0x000000, "line_y:%f",location.y);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y - 30.0f, location.x + 30.0f, location.y + 30.0f, 0xffffff, TRUE);
+}
+
+int EventLine::GetLineStopY()
+{
+	if (is_start == false) {
+		return -1;
+	}
+	return stop_location_y;
 }
 
 bool EventLine::CheckStop()
@@ -94,4 +103,10 @@ bool EventLine::CheckStop()
 		return true;
 	}
 	return false;
+}
+
+void EventLine::Stop()
+{
+	is_start = false;
+	Initialize();
 }
