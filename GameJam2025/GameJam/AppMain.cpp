@@ -3,7 +3,7 @@
 #include "Utility/PadInputManager.h"
 #include "Utility/ResourceManager.h"
 #include "Scene/SceneManager.h"
-
+#include <time.h>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 
@@ -17,6 +17,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		return -1;
 
 	}
+	//乱数の計算に使う元の数を変更
+	srand((unsigned int)time(NULL));
 
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager* manager = nullptr;

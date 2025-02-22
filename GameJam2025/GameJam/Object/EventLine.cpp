@@ -22,12 +22,14 @@ void EventLine::Initialize()
 	stop_location_y = 0;
 	is_moving_up = true;
 	is_stop = false;
+	is_start = false;
 }
 
 void EventLine::Update()
 {
-	PadInputManager* pad_input = PadInputManager::GetInstance();
+	if (is_start == false) { return; }
 
+	PadInputManager* pad_input = PadInputManager::GetInstance();
 	if (is_stop == false)
 	{
 		//もし上の限界値までｙが来たら
@@ -67,15 +69,19 @@ void EventLine::Draw() const
 {
 	//仮背景　見やすいように
 	DrawBox(0, 0, 640, 480, 0x999999, TRUE);
-	if (is_moving_up == true)
-	{
-		DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0x00ffff, TRUE);
-	}
-	else
-	{
-		DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0xffff00, TRUE);
+	if (is_start == true) {
+		if (is_moving_up == true)
+		{
+			DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0x00ffff, TRUE);
+		}
+		else
+		{
+			DrawTriangleAA(location.x, location.y, location.x + 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0xffff00, TRUE);
 
+		}
 	}
+
+	DrawFormatString(100, 120, 0x000000, "line_y:%f",location.y);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y - 30.0f, location.x + 30.0f, location.y + 30.0f, 0xffffff, TRUE);
 }

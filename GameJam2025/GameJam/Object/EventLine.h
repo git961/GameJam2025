@@ -12,6 +12,7 @@ private:
 
 	bool is_moving_up;//上に移動するか
 	bool is_stop;//動きを止めるか
+	bool is_start;//スタートするかどうか
 
 public:
 	EventLine();
@@ -24,4 +25,8 @@ public:
 	int GetLineStopY() { return stop_location_y; }
 	//動きが止まったかを返す
 	bool CheckStop();
+	//is_startをtrueにする
+	void Start() { is_start = true; }
+	//is_startをfalseにする
+	void Stop() { is_start = false; }
 };
