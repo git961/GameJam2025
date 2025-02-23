@@ -10,6 +10,8 @@ EventLine::EventLine()
 	std::vector<int> tmp;
 	tmp = rm->GetImages("Resource/Image/InGame/triangle.png");
 	triangle_img.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Image/InGame/event_line_range.png");
+	range_img.push_back(tmp[0]);
 
 	Initialize();
 }
@@ -77,12 +79,16 @@ void EventLine::Draw() const
 {
 	//仮背景　見やすいように
 	DrawBox(0, 0, 640, 480, 0x999999, TRUE);
+
+	DrawRotaGraph(450,130, 1, 0, range_img[0], TRUE);
+
 	if (is_start == true)
 	{
-		DrawRotaGraphF(location.x, location.y, 3, 0, triangle_img[0], TRUE);
+		DrawRotaGraph((int)location.x, (int)location.y, 1, 0, triangle_img[0], TRUE);
 	}
 
-	//DrawFormatString(100, 120, 0x000000, "line_y:%f",location.y);
+	//DrawFormatString(100, 160, 0x000000, "line_y:%f",location.y);
+	//DrawFormatString(100, 180, 0x000000, "stop_locationy:%d",stop_location_y);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y + 30.0f, location.y - 30.0f,location.x - 30.0f, location.y - 30.0f, 0xffffff, TRUE);
 	//DrawTriangleAA(location.x, location.y, location.x + 30.0f, location.y - 30.0f, location.x + 30.0f, location.y + 30.0f, 0xffffff, TRUE);
 }

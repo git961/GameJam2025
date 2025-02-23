@@ -16,6 +16,7 @@ private:
 	bool is_start;//スタートするかどうか
 
 	std::vector<int> triangle_img;//三角の画像
+	std::vector<int> range_img;//イベントラインの動く範囲の画像
 
 public:
 	EventLine();
