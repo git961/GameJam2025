@@ -29,6 +29,7 @@ private:
 	int stop_y;//バーをストップさせる高さ
 	Vector2D needle_pos;//注射針の座標
 	Vector2D patient_pos;//患者の座標
+	Vector2D patient_face_pos;//患者表情の座標
 	std::vector<int> needle_image;//注射針の画像
 	std::vector<int> patient_image;//患者の画像
 	std::vector<int> patient_face;//患者の表情画像

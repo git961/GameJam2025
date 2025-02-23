@@ -65,10 +65,15 @@ void NeedleAndPatient::Initialize()
 
 	needle_pos.x = 320.0f;
 	needle_pos.y = -270.0f;
+
 	//患者初期位置とサイズ
 	patient_pos.x =230.0f;
 	patient_pos.y = 400.0f;
 	p_size = 2.0;
+
+	//患者の表情初期位置セット
+	patient_face_pos.x = patient_pos.x;
+	patient_face_pos.y = patient_pos.y - 70.0f;
 
 	//液体の座標
 	liquid_pos.x = 250.0f;
@@ -120,9 +125,11 @@ void NeedleAndPatient::Update()
 		if (patient_pos.x < 320.0f)
 		{
 			patient_pos.x += 5;
+			patient_face_pos.x += 5;
 		}
 		if (patient_pos.y < 420)
 		{
+			patient_pos.y += 5;
 			patient_pos.y += 5;
 		}
 		if (p_size < 2.8)
@@ -204,10 +211,10 @@ void NeedleAndPatient::Update()
 		//偶数かチェック : 偶数だったら＋奇数だったらマイナス
 		if (timer % 2 == 0)
 		{
-			patient_pos.x += 4.0f;
+			patient_pos.x += 6.0f;
 		}
 		else {
-			patient_pos.x -= 4.0f;
+			patient_pos.x -= 6.0f;
 
 		}
 
@@ -271,6 +278,7 @@ void NeedleAndPatient::Update()
 		//注射が終わったら右へ移動
 		needle_pos.x += 5;
 		patient_pos.x += 5;
+		patient_face_pos.x =patient_pos.x;
 		liquid_pos.x += 5;
 
 		if (needle_pos.x > 630)
@@ -343,10 +351,8 @@ void NeedleAndPatient::Draw() const
 		//255,255,255でSetDrawBrightで変えた色を戻す
 		SetDrawBright(255,255,255);
 
-
-
 		//患者の表情表示
-		DrawRotaGraphF(patient_pos.x, patient_pos.y - 70.0f, p_size, 0, patient_face[(int)face_state], TRUE);
+		DrawRotaGraphF(patient_face_pos.x, patient_face_pos.y, p_size, 0, patient_face[(int)face_state], TRUE);
 
 		//描画ブレンドモードをアルファブレンドにする
 		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, face_alpha);
