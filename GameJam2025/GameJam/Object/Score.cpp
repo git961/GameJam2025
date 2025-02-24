@@ -80,6 +80,7 @@ void Score::Evaluate()
 	}
 }
 
+//テキスト読み込み処理
 void Score::ReadTxt()
 {
 	ifstream ifs_txt_file(txt_file_path);				//読み込むファイルを開く
@@ -88,7 +89,7 @@ void Score::ReadTxt()
 	//一行ずつ読み込む
 	while (getline(ifs_txt_file, str_buf))
 	{
-		istringstream i_stream(str_buf);				//「,」区切りごとにデータを読み込む
+		istringstream i_stream(str_buf);				//列をistringstreamに変換
 
 		//スコアと患者の人数に分けて読み込む
 		if (getline(i_stream, patient_str, ',') && getline(i_stream, score_str, ','))
@@ -105,6 +106,7 @@ void Score::ReadTxt()
 	}
 }
 
+//テキスト書き込み処理
 void Score::WriteTxt()
 {
 	ofstream ofs_txt_file(txt_file_path);				//書き込むファイルを開く
@@ -117,4 +119,18 @@ void Score::WriteTxt()
 		ofs_txt_file.put('\n');
 
 	}
+}
+
+//スコア比較処理
+void Score::ComparisonScore()
+{		
+		for (int i = 0; i < 3; i++)
+		{
+			if (score_array[i] < new_score)
+			{
+				score_array[i] = new_score;
+				patient_array[i] = new_patient;
+
+			}
+		}
 }

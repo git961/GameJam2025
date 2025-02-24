@@ -31,7 +31,7 @@ private:
 
 	int addscore;			//加算するスコア
 	int new_score;			//新しいスコア
-	int old_score;			//前回スコア
+	int new_patient;		//新しい患者の人数	
 	int eventline;			//イベント線(仮)
 
 public:
@@ -47,5 +47,7 @@ public:
 
 	void ReadTxt();
 	void WriteTxt();
+
+	void ComparisonScore();
 };
 
