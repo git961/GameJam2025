@@ -16,6 +16,7 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	score->Initialize();
+	ReadTxt();
 }
 
 eSceneType ResultScene::Update()
@@ -29,6 +30,7 @@ eSceneType ResultScene::Update()
 	}
 
 	score->Update();
+	WriteTxt();
 
 	return GetNowSceneType();
 }
@@ -37,6 +39,11 @@ void ResultScene::Draw() const
 {	
 	DrawString(10, 10, "Result\n", GetColor(255, 255, 255));
 	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
+
+	for (int i = 0; i < 3; i++)
+	{
+		DrawFormatString(300, 10 + (i * 20), GetColor(255, 255, 255), "%dNp : %d", patient_array[i], score_array[i], TRUE);
+	}
 
 	score->Draw();
 }
@@ -49,4 +56,59 @@ eSceneType ResultScene::GetNowSceneType() const
 {
 	//自分のsecenetypeを返す
 	return eSceneType::eResult;
+}
+
+//テキスト読み込み処理
+void ResultScene::ReadTxt()
+{
+	ifstream ifs_txt_file(txt_file_path);				//読み込むファイルを開く
+	int i = 0;
+
+	//一行ずつ読み込む
+	while (getline(ifs_txt_file, str_buf))
+	{
+		istringstream i_stream(str_buf);				//列をistringstreamに変換
+
+		//スコアと患者の人数に分けて読み込む
+		if (getline(i_stream, patient_str, ',') && getline(i_stream, score_str, ','))
+		{
+			int score = stoi(score_str);				//string型からint型に変換
+			score_array[i] = score;
+
+			int patient = stoi(patient_str);			//string型からint型に変換
+			patient_array[i] = patient;
+
+		}
+
+		i++;
+	}
+}
+
+//テキスト書き込み処理
+void ResultScene::WriteTxt()
+{
+	ofstream ofs_txt_file(txt_file_path);				//書き込むファイルを開く
+
+	for (int i = 0; i < 3; i++)
+	{
+		ofs_txt_file << patient_array[i];				//配列に書き込む
+		ofs_txt_file.put(',');
+		ofs_txt_file << score_array[i];					//配列に書き込む
+		ofs_txt_file.put('\n');
+
+	}
+}
+
+//スコア比較処理
+void ResultScene::ComparisonScore()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (score_array[i] < new_score)
+		{
+			score_array[i] = new_score;
+			patient_array[i] = new_patient;
+
+		}
+	}
 }
