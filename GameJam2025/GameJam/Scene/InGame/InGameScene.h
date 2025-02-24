@@ -2,8 +2,16 @@
 #include "../SceneBase.h"
 #include"../../Object/Score.h"
 
+// ゲームの状態を定義
+enum class eGameState {
+    ePlaying,       // プレイ中
+    eTimeUp,        // タイムアップ
+    eToResult       // リザルト画面へ遷移
+};
+
 class InGameScene :
     public SceneBase
+
 {
 private:
     Score* score = new Score;
@@ -14,7 +22,7 @@ private:
 	unsigned int previousTime;      // 前回の時間を保持する変数
     unsigned int countdown_after_timeup;
     bool time_up_flag;
-
+    eGameState gameState;// ゲームの状態を保持する変数
 
 public:
     InGameScene();
