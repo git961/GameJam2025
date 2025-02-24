@@ -32,8 +32,6 @@ NeedleAndPatient::NeedleAndPatient(EventLine *set_class,int set_num)
 	needle_image.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/patient.png");
 	patient_image.push_back(tmp[0]);
-	tmp = rm->GetImages("Resource/Image/InGame/column.png");
-	column.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/liquid.png");
 	liquid_image.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/stop_bar.png");
@@ -67,9 +65,9 @@ void NeedleAndPatient::Initialize()
 	needle_pos.y = -270.0f;
 
 	//患者初期位置とサイズ
-	patient_pos.x =230.0f;
+	patient_pos.x =200.0f;
 	patient_pos.y = 400.0f;
-	p_size = 2.0;
+	p_size = 1.5;
 
 	//患者の表情初期位置セット
 	patient_face_pos.x = patient_pos.x;
@@ -114,6 +112,7 @@ void NeedleAndPatient::Initialize()
 	green_num = original_color;
 
 	is_add_score = false;
+	is_change_column = false;
 }
 
 void NeedleAndPatient::Update()
@@ -287,6 +286,11 @@ void NeedleAndPatient::Update()
 		patient_face_pos.x =patient_pos.x;
 		liquid_pos.x += 5;
 
+		if (needle_pos.x > 628)
+		{
+			is_change_column = true;
+		}
+
 		if (needle_pos.x > 630)
 		{
 			is_next_start = true;
@@ -318,9 +322,6 @@ void NeedleAndPatient::Draw() const
 	//wait状態じゃなかったら表示する
 	if (state != State::wait)
 	{
-		//後ろの列の仮表示
-		DrawRotaGraph(120, 400, 1.5, 0, column[0], TRUE);
-
 		//液体の表示
 		if (state == State::come_out)
 		{

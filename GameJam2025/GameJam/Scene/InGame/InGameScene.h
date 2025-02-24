@@ -18,6 +18,7 @@ private:
     class EventLine* event_line;
     class NeedleAndPatient* n_and_p_black;//注射と患者のクラス
     class NeedleAndPatient* n_and_p_gray;//注射と患者のクラス
+    class Column* back_column;//背景の列
     int InGameImage;
 	int time;                       // 時間を保持する変数
 	unsigned int previousTime;      // 前回の時間を保持する変数

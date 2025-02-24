@@ -46,7 +46,7 @@ void Score::Finalize()
 
 }
 
-void Score::AddScore(float red_y, float event_y)
+void Score::AddScore(int red_y, int event_y)
 {
 	diff = std::abs(red_y - event_y);
 	Evaluate();

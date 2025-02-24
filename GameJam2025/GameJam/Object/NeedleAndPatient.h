@@ -34,7 +34,6 @@ private:
 	std::vector<int> patient_image;//患者の画像
 	std::vector<int> patient_face;//患者の表情画像
 	double p_size;//患者画像のサイズ
-	std::vector<int> column;//仮の行列
 	Vector2D liquid_pos;//液体の座標
 	float liquid_size;//液体のサイズ変えるよう
 	std::vector<int> liquid_image;//液体の画像
@@ -66,6 +65,8 @@ private:
 	 int original_color;//元の色を保管する変数
 	 bool is_add_score;//スコアを加算するか
 
+	 bool is_change_column;
+
 public:
 	NeedleAndPatient(class EventLine *set_class,int set_num);
 	~NeedleAndPatient();
@@ -77,6 +78,7 @@ public:
 	int GetStopY() { return stop_y; }
 	//次のオブジェクトを生成していいかx
 	bool CheckNextStart() { return is_next_start; }
+	bool CheckChangeColumn() { return is_change_column; }
 
 	bool CheckAddScore() { return is_add_score; }
 

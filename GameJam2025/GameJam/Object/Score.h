@@ -37,7 +37,7 @@ public:
 	void Draw() const;
 	void Finalize();
 	//距離の判定をしてスコアの加算をする
-	void AddScore(float red_y, float event_y);
+	void AddScore(int red_y, int event_y);
 	//Totalスコアを返す
 	int GetTotalScore() { return total_score; }
 

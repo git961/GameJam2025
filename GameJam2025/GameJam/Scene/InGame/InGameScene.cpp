@@ -3,6 +3,7 @@
 #include "../../Utility/ResourceManager.h"
 #include "../../Object/EventLine.h"
 #include "../../Object/NeedleAndPatient.h"
+#include "../../Object/Column.h"
 #include "DxLib.h"
 
 // 1秒あたりのミリ秒数
@@ -17,6 +18,7 @@ InGameScene::InGameScene() :
     event_line = new EventLine();
     n_and_p_black = new NeedleAndPatient(event_line, 0);
     n_and_p_gray = new NeedleAndPatient(event_line, 1);
+    back_column = new Column;
     InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
     patient_count = 0;
 }
@@ -28,6 +30,7 @@ InGameScene::~InGameScene()
     delete n_and_p_black;
     delete n_and_p_gray;
     delete score; 
+    delete back_column;
 }
 
 void InGameScene::Initialize()
@@ -66,6 +69,7 @@ eSceneType InGameScene::Update()
         n_and_p_black->Update();
         n_and_p_gray->Update();
         //score->Update();
+        back_column->AnimUpdate(true);
 
         //スコアを加算してもよかったら
         if (CheckAddScoreNAndP() == true)
@@ -103,7 +107,7 @@ void InGameScene::Draw() const
     __super::Draw();
     DrawFormatString(10, 10, GetColor(0, 0, 0),"patient_cnt%d\n",patient_count);
     DrawFormatString(10, 30, GetColor(0, 0, 0),"total_score%d\n",score->GetTotalScore());
-
+    back_column->Draw();
     event_line->Draw();
     n_and_p_black->Draw();
     n_and_p_gray->Draw();
@@ -150,11 +154,25 @@ void InGameScene::Start_NAndP()
     if (n_and_p_black->CheckNextStart())
     {
         n_and_p_gray->SetStart();
+        //AnimUpdateをgraychangeへ
+        back_column->SetGray();
     }
 
     if (n_and_p_gray->CheckNextStart())
     {
         n_and_p_black->SetStart();
+        back_column->SetBlack();
+    }
+
+    if (n_and_p_black->CheckChangeColumn())
+    {
+        //AnimUpdateをgraychangeへ
+        back_column->SetGray();
+    }
+
+    if (n_and_p_gray->CheckChangeColumn())
+    {
+        back_column->SetBlack();
     }
 }
 
