@@ -20,8 +20,14 @@ enum class eEvaluation
 class Score
 {
 private:
-	int score;				//初期スコア
-	int patient;			//患者の人数
+	int score_array[3];
+	int patient_array[3];
+
+	string str_buf;			//バフ
+	string score_str;		//スコア
+	string patient_str;			//患者の人数
+
+	string txt_file_path = "C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt";
 
 	int addscore;			//加算するスコア
 	int new_score;			//新しいスコア
@@ -29,11 +35,17 @@ private:
 	int eventline;			//イベント線(仮)
 
 public:
+	Score();
+	~Score();
+
 	void Initialize();
 	void Update();
-	void Draw();
+	void Draw() const;
 	void Finalize();
 
 	void Evaluate();
+
+	void ReadTxt();
+	void WriteTxt();
 };
 

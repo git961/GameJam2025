@@ -3,7 +3,13 @@
 class ResultScene :
     public SceneBase
 {
+private:
+    class Score* score;
+
 public:
+    ResultScene();
+    ~ResultScene();
+
     virtual void Initialize() override;
     virtual eSceneType Update() override;
     virtual void Draw() const override;
