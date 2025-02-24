@@ -112,6 +112,8 @@ void NeedleAndPatient::Initialize()
 
 	count_sum = 0;
 	green_num = original_color;
+
+	is_add_score = false;
 }
 
 void NeedleAndPatient::Update()
@@ -176,6 +178,8 @@ void NeedleAndPatient::Update()
 			//250を100の範囲に変換
 			el_scaled_y = (int)round(event_line->GetLineStopY() * (100.0 / 250.0));
 			patient_sum += el_scaled_y;
+
+			is_add_score = true;
 			//event_lineが止まったら次の状態へ
 			state = State::injection;
 		}
@@ -205,6 +209,8 @@ void NeedleAndPatient::Update()
 		}
 		break;
 	case State::injection://液体の注射
+		is_add_score = false;
+
 		//表情を変化させる
 		green_num ++;
 		timer++;

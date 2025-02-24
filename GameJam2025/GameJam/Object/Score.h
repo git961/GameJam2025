@@ -22,7 +22,7 @@ class Score
 private:
 
 	int addscore;			//加算するスコア
-
+	int total_score;			//スコア
 	int red_line_location;
 	int event_line_location;
 
@@ -36,6 +36,10 @@ public:
 	void Update();
 	void Draw() const;
 	void Finalize();
+	//距離の判定をしてスコアの加算をする
+	void AddScore(float red_y, float event_y);
+	//Totalスコアを返す
+	int GetTotalScore() { return total_score; }
 
 	void Evaluate();
 };

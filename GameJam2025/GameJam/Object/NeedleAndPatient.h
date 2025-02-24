@@ -64,6 +64,7 @@ private:
 
 	 int green_num;//緑色を加算する用
 	 int original_color;//元の色を保管する変数
+	 bool is_add_score;//スコアを加算するか
 
 public:
 	NeedleAndPatient(class EventLine *set_class,int set_num);
@@ -76,6 +77,9 @@ public:
 	int GetStopY() { return stop_y; }
 	//次のオブジェクトを生成していいかx
 	bool CheckNextStart() { return is_next_start; }
+
+	bool CheckAddScore() { return is_add_score; }
+
 	//y座標を返しても良いか
 	bool IsRetrunY();
 	//スタートさせる

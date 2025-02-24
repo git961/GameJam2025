@@ -25,7 +25,7 @@ public:
 	void Update();
 	void Draw()const;
 
-	//ラインが止まったｙ座標を返す : もしis_stopがtrueの時は-1を返す
+	//ラインが止まったｙ座標を返す
 	int GetLineStopY();
 	//動きが止まったかを返す
 	bool CheckStop();

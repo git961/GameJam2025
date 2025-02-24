@@ -25,6 +25,8 @@ private:
     bool time_up_flag;
     eGameState gameState;// ゲームの状態を保持する変数
 
+    int patient_count;//さばいた人数のカウント
+
 public:
     InGameScene();
     virtual ~InGameScene();
@@ -40,8 +42,12 @@ public:
 
 private:
     //n_and_pのラインのｙ座標を返す
-    int GetStopLine();
+    int GetRedLine();
     //n_and_pのどちらがアップデート開始するかを判断する関数
     void Start_NAndP();
+    //スコアを加算するかチェック
+    bool CheckAddScoreNAndP();
+    void SaveNewScore();
+
 };
 

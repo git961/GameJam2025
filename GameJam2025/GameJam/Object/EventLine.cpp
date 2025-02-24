@@ -95,9 +95,6 @@ void EventLine::Draw() const
 
 int EventLine::GetLineStopY()
 {
-	if (is_start == false) {
-		return -1;
-	}
 	return stop_location_y;
 }
 
