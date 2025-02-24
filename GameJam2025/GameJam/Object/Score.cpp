@@ -12,9 +12,25 @@ void Score::Initialize()
 
 void Score::Update() 
 {
+	string str_buf;			//バフ
+	string str_conma_buf;	//カンマ
+	string txt_file_path = "C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt";
+
+	ifstream ifs_txt_file(txt_file_path);				//読み込むファイルを開く
+	ofstream ofs_txt_file(txt_file_path);				//書き込むファイルを開く
+
+	while (getline(ifs_txt_file, str_buf))
+	{
+		istringstream i_stream(str_buf);				//「,」区切りごとにデータを読み込む
+
+		while (getline(i_stream, str_conma_buf, ','))
+		{
+			ofs_txt_file << str_conma_buf << ',';		//ファイルに書き込む
+		}
+		ofs_txt_file << endl;							//改行
+	}
+
 	Evaluate();
-	WriteTxtFile();
-	ReadTxtFile();
 }
 
 void Score::Draw()
@@ -31,7 +47,7 @@ void Score::Finalize()
 //タイミング評価処理
 void Score::Evaluate()
 {
-	eEvaluation evaluation = eEvaluation::eGood;	//変数にenum classのメンバーを設定
+	eEvaluation evaluation = eEvaluation::eGood;		//変数にenum classのメンバーを設定
 
 	if (eventline >= 900)
 	{
@@ -66,45 +82,4 @@ void Score::Evaluate()
 	default:
 		break;
 	}
-}
-
-void Score::WriteTxtFile()
-{
-	ofstream outFile("C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt");
-
-	if (outFile.is_open())
-	{
-		
-		outFile << score << " "<< patient << endl;
-	}
-	else
-	{
-		cerr << "ファイルを開けませんでした。" << endl;
-	}
-}
-
-int Score::ReadTxtFile()
-{
-	ifstream file("C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt");
-
-	if (!file) {
-		std::cerr << "ファイルを開けませんでした！" << std::endl;
-
-		return 1;
-	}
-
-	// ファイルを1行ずつ読み込む
-	string line;
-
-	//ファイルを一行ずつ読み込み、配列に格納
-	while (getline(file, line)) 
-	{
-		// 読み込んだ行を表示
-		DrawFormatString(260, 10, GetColor(255, 255, 255), "%s\n", line.c_str(), TRUE);
-	}
-
-	// ファイルを閉じる
-	file.close();
-
-	return 0;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -34,8 +35,5 @@ public:
 	void Finalize();
 
 	void Evaluate();
-
-	void WriteTxtFile();
-	int ReadTxtFile();
 };
 
