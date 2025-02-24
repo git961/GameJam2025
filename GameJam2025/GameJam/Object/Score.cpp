@@ -14,12 +14,17 @@ Score::~Score()
 void Score::Initialize() 
 {
 	addscore = 100;
-	eventline = 1000;
+	red_line_location = 100;
+	event_line_location = 200;
 }
 
 void Score::Update() 
 {
 	Evaluate();
+
+	diff = std::abs(red_line_location - event_line_location);
+
+
 }
 
 void Score::Draw() const
@@ -37,11 +42,11 @@ void Score::Evaluate()
 {
 	eEvaluation evaluation = eEvaluation::eGood;		//変数にenum classのメンバーを設定
 
-	if (eventline >= 900)
+	if (diff >= 900)
 	{
 		evaluation = eEvaluation::ePerfect;
 	}
-	else if (eventline >= 500)
+	else if (diff >= 500)
 	{
 		evaluation = eEvaluation::eGood;
 	}

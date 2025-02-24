@@ -22,7 +22,11 @@ class Score
 private:
 
 	int addscore;			//加算するスコア
-	int eventline;			//イベント線(仮)
+
+	int red_line_location;
+	int event_line_location;
+
+	int diff;
 
 public:
 	Score();
