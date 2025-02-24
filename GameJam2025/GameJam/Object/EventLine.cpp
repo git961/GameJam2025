@@ -78,7 +78,7 @@ void EventLine::Update()
 void EventLine::Draw() const
 {
 	//仮背景　見やすいように
-	DrawBox(0, 0, 640, 480, 0x999999, TRUE);
+	//DrawBox(0, 0, 640, 480, 0x999999, TRUE);
 
 	DrawRotaGraph(450,130, 1, 0, range_img[0], TRUE);
 

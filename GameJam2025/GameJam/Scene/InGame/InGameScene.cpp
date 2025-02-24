@@ -9,7 +9,7 @@
 const int MILLISECONDS_PER_SECOND = 1000;
 
 InGameScene::InGameScene() :
-    time(10),                    // ここで制限時間を変更できます
+    time(60),                    // ここで制限時間を変更できます
     
     countdown_after_timeup(0),   // タイムアップ後のカウントダウン時間 
     gameState(eGameState::ePlaying) // ゲーム状態の初期化
@@ -17,6 +17,7 @@ InGameScene::InGameScene() :
     event_line = new EventLine();
     n_and_p_black = new NeedleAndPatient(event_line, 0);
     n_and_p_gray = new NeedleAndPatient(event_line, 1);
+    InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
 }
 
 InGameScene::~InGameScene()
@@ -89,6 +90,7 @@ eSceneType InGameScene::Update()
 
 void InGameScene::Draw() const
 {
+    DrawGraph(0, 0, InGameImage, TRUE);
     __super::Draw();
     DrawString(10, 10, "InGame\n", GetColor(255, 255, 255));
     DrawString(10, 26, "B:Result", GetColor(255, 255, 255));
