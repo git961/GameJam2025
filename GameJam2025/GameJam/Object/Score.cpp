@@ -48,15 +48,15 @@ void Score::Draw() const
 	{
 		if (diff <= 10)
 		{
-			DrawGraph(0, 0, just_perfect, TRUE);
+			DrawGraph(200, 0, just_perfect, TRUE);
 		}
-		else if (diff <= 20)
+		else if (diff <= 30)
 		{
-			DrawGraph(0, 0, just_good, TRUE);
+			DrawGraph(200, 0, just_good, TRUE);
 		}
 		else
 		{
-			DrawGraph(0, 0, just_bad, TRUE);
+			DrawGraph(200, 0, just_bad, TRUE);
 		}
 	}
 }
@@ -83,7 +83,7 @@ void Score::Evaluate()
 	{
 		evaluation = eEvaluation::ePerfect;
 	}
-	else if (diff <= 20)
+	else if (diff <= 30)
 	{
 		evaluation = eEvaluation::eGood;
 	}
