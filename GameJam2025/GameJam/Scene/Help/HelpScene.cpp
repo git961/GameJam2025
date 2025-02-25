@@ -4,7 +4,7 @@
 
 void HelpScene::Initialize()
 {
-	HelpImage= LoadGraph("Resource/Image/InGame/Helpimage.png");
+	HelpImage= LoadGraph("Resource/Image/Title/HelpImage.png");
 }
 
 eSceneType HelpScene::Update()
