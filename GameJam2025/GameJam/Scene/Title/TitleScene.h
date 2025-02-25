@@ -9,6 +9,10 @@ private:
     int arrow_image;
     int Title_image;
     int cursor_y;
+    int BGM;
+    int SE1;
+    int SE2;
+
 
 
 public:
