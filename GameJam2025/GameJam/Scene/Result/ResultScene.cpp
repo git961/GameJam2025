@@ -15,7 +15,7 @@ ResultScene::~ResultScene()
 
 void ResultScene::Initialize()
 {
-	ranking_image = LoadGraph("Resource\\Ranking\\result.png");
+	ranking_image = LoadGraph("Resource\\Ranking\\ranking.png");
 	BGM = LoadSoundMem("Resource/Sounds/BGM/ResultorendBGM.mp3");
 	SE = LoadSoundMem("Resource/Sounds/SE/MV.mp3");
 	score->Initialize();
@@ -55,10 +55,14 @@ void ResultScene::Draw() const
 	{
 		SetFontSize(24);
 
-		DrawFormatString(300, 203 + (i * 70), GetColor(0, 0, 0), "%d   %d", patient_array[i], score_array[i], TRUE);
+		DrawFormatString(300, 203 + (i * 70), GetColor(0, 0, 0), "%d", patient_array[i], TRUE);
+		DrawFormatString(370, 203 + (i * 70), GetColor(0, 0, 0), "%d", score_array[i], TRUE);
 	}
 
 	SetFontSize(16);
+
+	DrawFormatString(243, 430, GetColor(0, 0, 0), "%d", now_player_patient, TRUE);
+	DrawFormatString(368, 430, GetColor(0, 0, 0), "%d", now_player_score, TRUE);
 
 	score->Draw();
 }
@@ -93,11 +97,14 @@ void ResultScene::ReadTxt()
 
 			int patient = stoi(patient_str);			//string型からint型に変換
 			patient_array[i] = patient;
-
 		}
 
 		i++;
 	}
+
+	now_player_score = score_array[3];
+	now_player_patient = patient_array[3];
+
 }
 
 //テキスト書き込み処理
@@ -125,7 +132,7 @@ void ResultScene::ComparisonScore()
 	{
 		for (int j = i + 1; j < 4; j++)
 		{
-			if (score_array[i] <= score_array[j])
+			if (score_array[i] < score_array[j])
 			{
 				old_score = score_array[i];				//前回情報を変数に入れる
 				old_patient = patient_array[i];

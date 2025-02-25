@@ -26,6 +26,8 @@ private:
     int patient_array[4];   //患者の人数配列
     int new_score;			//新しいスコア
     int new_patient;		//新しい患者の人数	
+    int now_player_score;   //現在のプレイヤーのスコア
+    int now_player_patient; //現在のプレイヤーの患者数
 
     int ranking_image;      //ランキングイメージ
     int SE;
