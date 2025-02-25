@@ -10,8 +10,8 @@
 const int MILLISECONDS_PER_SECOND = 1000;
 
 InGameScene::InGameScene() :
-    time(10),                    // ここで制限時間を変更できます
-    
+    time(60),    // ここで制限時間を変更できます
+    countdown_delay(0),
     countdown_after_timeup(0),   // タイムアップ後のカウントダウン時間 
     gameState(eGameState::ePlaying) // ゲーム状態の初期化
 {
@@ -20,6 +20,7 @@ InGameScene::InGameScene() :
     n_and_p_gray = new NeedleAndPatient(event_line, 1);
     back_column = new Column;
     InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
+   /* InGameBGM = LoadSoundMem("");*/
     patient_count = 0;
 }
 
@@ -37,9 +38,10 @@ void InGameScene::Initialize()
 {
     score->Initialize();              // スコアの初期化
     previousTime = GetNowCount();     // 前回の時間を初期化
-    countdown_after_timeup = 5;       // カウントダウン初期化
+    countdown_after_timeup = 5;       //終了時の時間
     gameState = eGameState::ePlaying; // ゲーム状態をプレイ中に初期化
     patient_count = 0;
+    countdown_delay = 5;             // START時の遅延を設定
 }
 
 eSceneType InGameScene::Update()
@@ -54,6 +56,13 @@ eSceneType InGameScene::Update()
     // ゲームの状態に応じて処理を分岐
     switch (gameState) {
     case eGameState::ePlaying:// プレイ中の場合
+        if (countdown_delay > 0) {
+            if (elapsedTime >= MILLISECONDS_PER_SECOND) {
+                countdown_delay--;
+                previousTime = currentTime;
+            }
+        }
+        else{
         if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
             time--;
             previousTime = currentTime;// 前回の時間を更新
@@ -77,6 +86,7 @@ eSceneType InGameScene::Update()
             score->AddScore(GetRedLine(), event_line->GetLineStopY());
             patient_count++;
         }
+       }
         Start_NAndP();
         break;
 
@@ -115,12 +125,16 @@ void InGameScene::Draw() const
     score->Draw();
 
     // ゲーム状態に応じて描画内容を切り替え
-
-    if (gameState == eGameState::ePlaying) {// プレイ中の場合
-        DrawFormatString(10, 50, GetColor(255, 255, 255), "残り時間 : %d", time);
+    if (gameState == eGameState::ePlaying) {
+        if (countdown_delay > 0) {
+            DrawFormatString(300, 400, GetColor(0, 0, 0), "ゲーム開始まで : %d", countdown_delay);//スタート時の場合
+        }
+        else {
+            DrawFormatString(10, 50, GetColor(0, 0, 0), "残り時間 : %d", time);// プレイ中の場合
+        }
     }
-    else if (gameState == eGameState::eTimeUp) {// タイムアップの場合
-        DrawFormatString(300, 400, GetColor(255, 255, 255), "End %d", countdown_after_timeup);
+    else if (gameState == eGameState::eTimeUp) {
+        DrawFormatString(300, 400, GetColor(255, 255, 255), "End %d", countdown_after_timeup);// タイムアップの場合
     }
 }
 

@@ -5,6 +5,7 @@ class HelpScene :
     public SceneBase
 {
 private:
+    int HelpImage;
 public:
     virtual void Initialize() override;
     virtual eSceneType Update() override;

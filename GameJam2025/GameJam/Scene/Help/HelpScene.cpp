@@ -4,6 +4,7 @@
 
 void HelpScene::Initialize()
 {
+	HelpImage= LoadGraph("Resource/Image/InGame/Helpimage.png");
 }
 
 eSceneType HelpScene::Update()
@@ -19,9 +20,7 @@ eSceneType HelpScene::Update()
 
 void HelpScene::Draw() const
 {
-	DrawString(10, 10, "HelpScene\n", GetColor(255, 255, 255));
-	//DrawString(10, 26, "Z:インゲーム\nX:タイトル\nに遷移します", GetColor(255, 255, 255));
-	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
+	DrawExtendGraph(0, 0, 640,480,HelpImage, TRUE);
 }
 
 void HelpScene::Finalize()
