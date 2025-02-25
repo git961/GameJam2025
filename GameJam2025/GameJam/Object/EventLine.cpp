@@ -12,6 +12,7 @@ EventLine::EventLine()
 	triangle_img.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/event_line_range.png");
 	range_img.push_back(tmp[0]);
+	SE1 = LoadSoundMem("Resource/Sounds/SE/Put In.mp3");
 
 	Initialize();
 }
@@ -71,6 +72,7 @@ void EventLine::Update()
 	{
 		is_stop = true;
 		stop_location_y = (int)location.y;
+		PlaySoundMem(SE1, DX_PLAYTYPE_BACK, TRUE);
 	}
 
 }
