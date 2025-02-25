@@ -15,6 +15,7 @@ ResultScene::~ResultScene()
 
 void ResultScene::Initialize()
 {
+	ranking_image = LoadGraph("Resource\\Ranking\\result.png");
 	score->Initialize();
 	ReadTxt();
 }
@@ -40,11 +41,17 @@ void ResultScene::Draw() const
 {	
 	DrawString(10, 10, "Result\n", GetColor(255, 255, 255));
 	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
+	DrawExtendGraph(0, 0, 640, 480, ranking_image, TRUE);
+	
 
 	for (int i = 0; i < 3; i++)
 	{
-		DrawFormatString(300, 10 + (i * 20), GetColor(255, 255, 255), "%dNp : %d", patient_array[i], score_array[i], TRUE);
+		SetFontSize(24);
+
+		DrawFormatString(300, 203 + (i * 70), GetColor(0, 0, 0), "%d     %d", patient_array[i], score_array[i], TRUE);
 	}
+
+	SetFontSize(16);
 
 	score->Draw();
 }

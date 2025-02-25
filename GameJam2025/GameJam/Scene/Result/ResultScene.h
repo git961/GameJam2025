@@ -27,6 +27,8 @@ private:
     int new_score;			//新しいスコア
     int new_patient;		//新しい患者の人数	
 
+    int ranking_image;      //ランキングイメージ
+
 public:
     ResultScene();
     ~ResultScene();
