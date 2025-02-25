@@ -26,6 +26,13 @@ private:
 	int red_line_location;
 	int event_line_location;
 
+	int just_perfect;		//パーフェクトのタイミング
+	int just_good;			//グッドのタイミング
+	int just_bad;			//バッドのタイミング
+
+	bool check_just;		//評価されているか
+	int time_count;
+
 	int diff;
 
 public:

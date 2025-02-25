@@ -17,27 +17,48 @@ void Score::Initialize()
 	red_line_location = 100;
 	event_line_location = 200;
 	total_score = 0;
+	time_count = 0;
+
+	just_perfect = LoadGraph("Resource\\Image\\InGame\\timeing\\Perfect.PNG");
+	just_good = LoadGraph("Resource\\Image\\InGame\\timeing\\Good.PNG");
+	just_bad = LoadGraph("Resource\\Image\\InGame\\timeing\\Bad.PNG");
+
+	check_just = false;
+
 }
 
 void Score::Update()
 {
 	//diff = std::abs(red_y - event_y);
+	if (check_just == true)
+	{
+		time_count++;
+
+		if (time_count > 30)
+		{
+			time_count = 0;
+			check_just = false;
+		}
+	}
 	Evaluate();
 }
 
 void Score::Draw() const
 {
-	if (diff <= 10)
+	if (check_just == true)
 	{
-		DrawFormatString(200, 10, GetColor(0, 0, 0), "Perfect", TRUE);
-	}
-	else if (diff <= 20)
-	{
-		DrawFormatString(200, 10, GetColor(0, 0, 0), "Good", TRUE);
-	}
-	else
-	{
-		DrawFormatString(200, 10, GetColor(0, 0, 0), "Bad", TRUE);
+		if (diff <= 10)
+		{
+			DrawGraph(0, 0, just_perfect, TRUE);
+		}
+		else if (diff <= 20)
+		{
+			DrawGraph(0, 0, just_good, TRUE);
+		}
+		else
+		{
+			DrawGraph(0, 0, just_bad, TRUE);
+		}
 	}
 }
 
@@ -49,6 +70,7 @@ void Score::Finalize()
 void Score::AddScore(int red_y, int event_y)
 {
 	diff = std::abs(red_y - event_y);
+	check_just = true;
 	Evaluate();
 }
 

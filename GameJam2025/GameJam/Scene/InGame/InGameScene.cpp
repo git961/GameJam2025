@@ -77,6 +77,7 @@ eSceneType InGameScene::Update()
         event_line->Update();
         n_and_p_black->Update();
         n_and_p_gray->Update();
+        score->Update();
         //score->Update();
         back_column->AnimUpdate(true);
 
