@@ -24,6 +24,7 @@ InGameScene::InGameScene() :
     //インゲーム画像
     InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
     End = LoadGraph("Resource/Image/InGame/Finish.png");
+    timer_img = LoadGraph("Resource/Image/InGame/Timer.png");
     Start = LoadGraph("Resource/Image/InGame/Start.png");
     BGM = LoadSoundMem("Resource/Sounds/BGM/ingameBGM.mp3");
     ChangeVolumeSoundMem(150, BGM);
@@ -154,8 +155,8 @@ void InGameScene::Draw() const
 {
     DrawGraph(0, 0, InGameImage, TRUE);
     __super::Draw();
-    DrawFormatString(10, 10, GetColor(0, 0, 0),"patient_cnt%d\n",patient_count);
-    DrawFormatString(10, 30, GetColor(0, 0, 0),"total_score%d\n",score->GetTotalScore());
+    //DrawFormatString(10, 10, GetColor(0, 0, 0),"patient_cnt%d\n",patient_count);
+    //DrawFormatString(10, 30, GetColor(0, 0, 0),"total_score%d\n",score->GetTotalScore());
     back_column->Draw();
     event_line->Draw();
     n_and_p_black->Draw();
@@ -172,8 +173,9 @@ void InGameScene::Draw() const
             DrawRotaGraph(330, 240, 2, 0,Start, TRUE); //スタート時の場合
         }
         else {
-            DrawGraph(10, 50, numberImage[(time / 10) % 10], TRUE); // 十の位を表示
-            DrawGraph(40, 50, numberImage[time%10], TRUE); // 1の位を表示
+            DrawGraph(10, 5, timer_img, TRUE);
+            DrawGraph(20, 50, numberImage[(time / 10) % 10], TRUE); // 十の位を表示
+            DrawGraph(50, 50, numberImage[time%10], TRUE); // 1の位を表示
         }
     }
     else if (gameState == eGameState::eTimeUp) {
@@ -254,7 +256,7 @@ void InGameScene::SaveNewScore()
 
     int save_score = score->GetTotalScore();
 
-    string txt_file_path = "C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt";
+    string txt_file_path = "Resource\\Ranking\\Ranking.txt";
     ofstream ofs_txt_file(txt_file_path, std::ios::app);//std::ios::appで末尾に記入毎回保存は３つだけで良いはず
     if (ofs_txt_file.is_open()) {
         ofs_txt_file << patient_count << ',' << save_score;

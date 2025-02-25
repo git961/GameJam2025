@@ -8,8 +8,8 @@ Column::Column()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 	//240*112
-	tmp = rm->GetImages("Resource/Image/InGame/back_column.png",12,12,1,240,112);
-	for (int i = 0; i < 12; i++)
+	tmp = rm->GetImages("Resource/Image/InGame/back_column.png",14,14,1,240,112);
+	for (int i = 0; i < 14; i++)
 	{
 		column_img.push_back(tmp[i]);
 	}
@@ -48,13 +48,13 @@ void Column::AnimUpdate(bool is_black)
 		}
 		break;
 	case AnimState::change_gray:
-		//4~5黒から白へ
+		//4~6黒から白へ
 		if (anim_cnt++ > 2)
 		{
 			anim_cnt = 0;
-			if (img_num++ >= 5)
+			if (img_num++ >= 6)
 			{
-				img_num = 6;
+				img_num = 7;
 			
 				anim_state = AnimState::gray;
 			}
@@ -62,22 +62,22 @@ void Column::AnimUpdate(bool is_black)
 
 		break;
 	case AnimState::gray:
-		//6~9を表示
+		//7~10を表示
 		if (anim_cnt++ > 2)
 		{
 			anim_cnt = 0;
-			if (img_num++ >= 9)
+			if (img_num++ >= 10)
 			{
-				img_num = 6;
+				img_num = 7;
 			}
 		}
 		break;
 	case AnimState::change_black:
-		//10~11白から黒へ
+		//11~13白から黒へ
 		if (anim_cnt++ > 2)
 		{
 			anim_cnt = 0;
-			if (img_num++ >= 11)
+			if (img_num++ >= 13)
 			{
 				img_num = 0;
 				anim_state = AnimState::black;

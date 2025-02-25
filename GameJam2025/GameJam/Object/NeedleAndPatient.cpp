@@ -105,7 +105,7 @@ void NeedleAndPatient::Initialize()
 	//エフェクトの座標初期化
 	effect_pos = 0.0f;
 	effect_pos2 = 0.0f;
-	effect_size = 5.0f;
+	effect_size = 7.0f;
 	vel = -10;
 	acc = 1;
 
@@ -336,11 +336,15 @@ void NeedleAndPatient::Draw() const
 		if (state == State::come_out)
 		{
 			//20.0fはneedle_imageとの画像の中心の差
-			DrawRotaGraphF(needle_pos.x, needle_pos.y - 20.0f, 1, 0, liquid_image[0], TRUE);
+			DrawRotaGraphF(needle_pos.x, needle_pos.y - 19.0f, 1, 0, liquid_image[0], TRUE);
+			//液体隠す用
+			DrawBoxAA(needle_pos.x - 70.0f, needle_pos.y, needle_pos.x + 70.0f, needle_pos.y, 0x000000, TRUE);
 		}
 		else
 		{
 			DrawExtendGraphF(liquid_pos.x,  liquid_size, liquid_pos.x + 140.0f, liquid_pos.y + 240.0f, liquid_image[0],TRUE);
+			//液体隠す用
+			DrawBoxAA(needle_pos.x - 70.0f, liquid_size, needle_pos.x + 70.0f, liquid_size + 10.0f, 0x000000, TRUE);
 		}
 		if (state == State::eventline_move)
 		{
@@ -349,11 +353,8 @@ void NeedleAndPatient::Draw() const
 			DrawCircle((int)bubble2.x, (int)bubble2.y, 3, 0xffffff, TRUE);
 		}
 
-		//液体隠す用
-		DrawBoxAA(needle_pos.x-70.0f, 0.0f, needle_pos.x+70.0f, 10.0f, 0x999999, TRUE);
 		//注射器の画像表示
 		DrawRotaGraph((int)needle_pos.x, (int)needle_pos.y, 1, 0, needle_image[0], TRUE);
-
 
 		//SetDrawBrightで色の変更
 		if (is_black == true)
@@ -405,10 +406,10 @@ void NeedleAndPatient::Draw() const
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, face_alpha);
 		*/
 		//DrawFormatString(100, 40, 0x000000, "el_sum:%d", el_scaled_y);
-		DrawFormatString(100, 60, 0x000000, "patient_sum:%d", patient_sum);
+		//DrawFormatString(100, 60, 0x000000, "patient_sum:%d", patient_sum);
 		//DrawFormatString(100, 80, 0x000000, "liquid_y:%d", (int)liquid_pos.y + (int)liquid_size);
-		DrawFormatString(100, 100, 0x000000, "stop_y:%d", stop_y);
-		DrawFormatString(100, 120, 0x000000, "eventline_y:%d", event_line->GetLineStopY());
+		//DrawFormatString(100, 100, 0x000000, "stop_y:%d", stop_y);
+		//DrawFormatString(100, 120, 0x000000, "eventline_y:%d", event_line->GetLineStopY());
 		//DrawFormatString(100, 120, 0x000000, "needle_x:%f", needle_pos.x);
 		//DrawFormatString(100, 120, 0x000000, "liquid_size:%f", liquid_size);
 
@@ -457,24 +458,34 @@ void NeedleAndPatient::EffectDraw() const
 	float frame_size_x2 = effect_pos2.x + effect_size.x + shift;
 	float frame_size_y2 = effect_pos2.y + effect_size.y + shift;
 
-	//枠部分
-	DrawBoxAA(effect_pos.x - shift, effect_pos.y - shift, frame_size_x, frame_size_y, 0xffffff, TRUE);
-	DrawBoxAA(effect_pos.x - shift-4.0f, effect_pos.y - shift - 6.0f, frame_size_x-4.0f, frame_size_y - 6.0f, 0xffffff, TRUE);
+	////枠部分
+	//DrawBoxAA(effect_pos.x - shift, effect_pos.y - shift, frame_size_x, frame_size_y, 0xffffff, TRUE);
+	//DrawBoxAA(effect_pos.x - shift-4.0f, effect_pos.y - shift - 6.0f, frame_size_x-4.0f, frame_size_y - 6.0f, 0xffffff, TRUE);
 
-	DrawBoxAA(effect_pos2.x - shift, effect_pos2.y - shift, frame_size_x2, frame_size_y2, 0xffffff, TRUE);
-	DrawBoxAA(effect_pos2.x - shift-7.0f, effect_pos2.y - shift - 6.0f, frame_size_x2-7.0f, frame_size_y2 - 6.0f, 0xffffff, TRUE);
+	//DrawBoxAA(effect_pos2.x - shift, effect_pos2.y - shift, frame_size_x2, frame_size_y2, 0xffffff, TRUE);
+	//DrawBoxAA(effect_pos2.x - shift-7.0f, effect_pos2.y - shift - 6.0f, frame_size_x2-7.0f, frame_size_y2 - 6.0f, 0xffffff, TRUE);
 
+	if (state != State::come_out && state!=State::wait)
+	{
+		float box_size_x = effect_pos.x + effect_size.x;
+		float box_size_y = effect_pos.y + effect_size.y;
 
-	float box_size_x = effect_pos.x + effect_size.x;
-	float box_size_y = effect_pos.y + effect_size.y;
+		float box_size_x2 = effect_pos2.x + effect_size.x;
+		float box_size_y2 = effect_pos2.y + effect_size.y;
+		//SetDrawBrightで色の変更
+		if (is_black == true)
+		{
+			SetDrawBright(73, green_num, 73);
+		}
+		else {
+			SetDrawBright(117, green_num, 117);
+		}
+		//四角部分
+		DrawBoxAA(effect_pos.x, effect_pos.y, box_size_x, box_size_y, 0x68ff00, TRUE);
+		DrawBoxAA(effect_pos.x - 4.0f, effect_pos.y - 6.0f, box_size_x - 4.0f, box_size_y - 6.0f, 0xffffff, TRUE);
 
-	float box_size_x2 = effect_pos2.x + effect_size.x;
-	float box_size_y2 = effect_pos2.y + effect_size.y;
-	//四角部分
-	DrawBoxAA(effect_pos.x, effect_pos.y, box_size_x, box_size_y, 0x68ff00, TRUE);
-	DrawBoxAA(effect_pos.x-4.0f , effect_pos.y - 6.0f, box_size_x-4.0f, box_size_y - 6.0f, 0x68ff00, TRUE);
-
-	DrawBoxAA(effect_pos2.x, effect_pos2.y , box_size_x2, box_size_y2, 0x68ff00, TRUE);
-	DrawBoxAA(effect_pos2.x-7.0f, effect_pos2.y - 6.0f, box_size_x2-7.0f, box_size_y2 - 6.0f, 0x68ff00, TRUE);
-
+		DrawBoxAA(effect_pos2.x, effect_pos2.y, box_size_x2, box_size_y2, 0x68ff00, TRUE);
+		DrawBoxAA(effect_pos2.x - 7.0f, effect_pos2.y - 6.0f, box_size_x2 - 7.0f, box_size_y2 - 6.0f, 0xffffff, TRUE);
+		SetDrawBright(255, 255, 255);
+	}
 }

@@ -25,6 +25,7 @@ private:
     int SE;
     int SE2;
     bool se_once;//seを一回だけ鳴らす用
+    int timer_img;//タイマーの文字
 
     Score* score = new Score;
     class EventLine* event_line;
