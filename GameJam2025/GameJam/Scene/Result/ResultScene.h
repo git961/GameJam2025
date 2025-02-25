@@ -28,6 +28,8 @@ private:
     int new_patient;		//新しい患者の人数	
 
     int ranking_image;      //ランキングイメージ
+    int SE;
+    int BGM;
 
 public:
     ResultScene();

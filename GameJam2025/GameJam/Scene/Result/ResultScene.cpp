@@ -16,6 +16,8 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	ranking_image = LoadGraph("Resource\\Ranking\\result.png");
+	BGM = LoadSoundMem("Resource/Sounds/BGM/ResultorendBGM.mp3");
+	SE = LoadSoundMem("Resource/Sounds/SE/MV.mp3");
 	score->Initialize();
 	ReadTxt();
 }
@@ -23,10 +25,15 @@ void ResultScene::Initialize()
 eSceneType ResultScene::Update()
 {
 	PadInputManager* pad_input = PadInputManager::GetInstance();
+	if (CheckSoundMem(BGM) == 0)
+	{
+		PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
+	}
 
 	//Bを押したらタイトルへ戻る
 	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
 	{
+		PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
 		return eSceneType::eTitle;
 	}
 
@@ -58,6 +65,7 @@ void ResultScene::Draw() const
 
 void ResultScene::Finalize()
 {
+	StopSoundMem(BGM);
 }
 
 eSceneType ResultScene::GetNowSceneType() const
