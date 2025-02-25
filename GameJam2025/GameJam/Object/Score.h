@@ -35,6 +35,10 @@ private:
 
 	int diff;
 
+	int p_se;
+	int g_se;
+	int b_se;
+
 public:
 	Score();
 	~Score();

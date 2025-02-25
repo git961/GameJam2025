@@ -7,7 +7,6 @@ Column::Column()
 	//画像を読み込む
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	SE1 = LoadSoundMem("Resource/Sounds/SE/FootSteps.mp3");
 	//240*112
 	tmp = rm->GetImages("Resource/Image/InGame/back_column.png",12,12,1,240,112);
 	for (int i = 0; i < 12; i++)
@@ -56,14 +55,9 @@ void Column::AnimUpdate(bool is_black)
 			if (img_num++ >= 5)
 			{
 				img_num = 6;
-				StopSoundMem(SE1);
+			
 				anim_state = AnimState::gray;
 			}
-		}
-
-		if (CheckSoundMem(SE1) == 0)
-		{
-			PlaySoundMem(SE1, DX_PLAYTYPE_BACK, TRUE);
 		}
 
 		break;

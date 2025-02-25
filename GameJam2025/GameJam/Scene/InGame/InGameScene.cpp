@@ -25,6 +25,10 @@ InGameScene::InGameScene() :
     InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
     End = LoadGraph("Resource/Image/InGame/Finish.png");
     Start = LoadGraph("Resource/Image/InGame/Start.png");
+    BGM = LoadSoundMem("Resource/Sounds/BGM/ingameBGM.mp3");
+    ChangeVolumeSoundMem(150, BGM);
+    SE= LoadSoundMem("Resource/Sounds/SE/Whistle.mp3");
+    SE2 = LoadSoundMem("Resource/Sounds/SE/MV.mp3"); 
 
     //カウントダウン用数字画像
     for (int i = 0; i < 10; i++) {
@@ -50,25 +54,50 @@ void InGameScene::Initialize()
     gameState = eGameState::ePlaying; // ゲーム状態をプレイ中に初期化
     patient_count = 0;
     countdown_delay = 3;             // START時の遅延を設定
+    se_once = true;
 }
 
 eSceneType InGameScene::Update()
 {
     PadInputManager* pad_input = PadInputManager::GetInstance();
 
+
+
     // 現在の時間を取得
     unsigned int currentTime = GetNowCount();
     // 前回のフレームからの経過時間を計算
     unsigned int elapsedTime = currentTime - previousTime;
 
+    if (se_once == true)
+    {
+        PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
+        se_once = false;
+    }
+
     // ゲームの状態に応じて処理を分岐
     switch (gameState) {
     case eGameState::ePlaying:// プレイ中の場合
+        if (CheckSoundMem(BGM) == 0)
+        {
+            PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
+        }
+
+        if (countdown_delay == 1)
+        {
+            PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
+        }
+
+
         if (countdown_delay >= 0) {
             if (elapsedTime >= MILLISECONDS_PER_SECOND) {
+                if(countdown_delay>1)
+                {
+                    PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
+                }
                 countdown_delay--;
                 previousTime = currentTime;
             }
+
         }
         else{
         if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
@@ -77,6 +106,8 @@ eSceneType InGameScene::Update()
 
             if (time <= 0) {
                 time = 0;
+                StopSoundMem(BGM); 
+                PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
                 gameState = eGameState::eTimeUp;
                 previousTime = currentTime; // カウントダウン開始時間を記録
             }
@@ -116,7 +147,6 @@ eSceneType InGameScene::Update()
     case eGameState::eToResult:// リザルト画面遷移の場合
         return eSceneType::eResult; // リザルト画面に遷移
     }
-
     return __super::Update();
 }
 

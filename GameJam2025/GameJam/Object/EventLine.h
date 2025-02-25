@@ -18,6 +18,7 @@ private:
 	std::vector<int> triangle_img;//三角の画像
 	std::vector<int> range_img;//イベントラインの動く範囲の画像
 	int SE1;
+	int stop_se;
 
 
 public:

@@ -13,6 +13,9 @@ EventLine::EventLine()
 	tmp = rm->GetImages("Resource/Image/InGame/event_line_range.png");
 	range_img.push_back(tmp[0]);
 	SE1 = LoadSoundMem("Resource/Sounds/SE/Put In.mp3");
+	ChangeVolumeSoundMem(180, SE1); 
+	stop_se = LoadSoundMem("Resource/Sounds/SE/Decide.mp3");
+	
 
 	Initialize();
 }
@@ -72,7 +75,8 @@ void EventLine::Update()
 	{
 		is_stop = true;
 		stop_location_y = (int)location.y;
-		PlaySoundMem(SE1, DX_PLAYTYPE_BACK, TRUE);
+		PlaySoundMem(SE1, DX_PLAYTYPE_BACK, TRUE); 
+		//PlaySoundMem(stop_se, DX_PLAYTYPE_BACK, TRUE);
 	}
 
 }

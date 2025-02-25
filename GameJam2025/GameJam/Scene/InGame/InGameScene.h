@@ -21,6 +21,10 @@ private:
     int numberImage[11];    // 数字画像 (0～9)
     int End;
     int Start;
+    int BGM;
+    int SE;
+    int SE2;
+    bool se_once;//seを一回だけ鳴らす用
 
     Score* score = new Score;
     class EventLine* event_line;

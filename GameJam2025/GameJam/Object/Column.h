@@ -19,7 +19,6 @@ private:
 	int img_num;//画像表示番号 Max_11まで
 	int anim_cnt;
 	int frame_cnt;
-	int SE1;
 
 public:
 	Column();

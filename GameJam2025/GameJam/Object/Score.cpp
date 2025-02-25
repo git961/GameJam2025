@@ -22,6 +22,9 @@ void Score::Initialize()
 	just_perfect = LoadGraph("Resource\\Image\\InGame\\timeing\\Perfect.PNG");
 	just_good = LoadGraph("Resource\\Image\\InGame\\timeing\\Good.PNG");
 	just_bad = LoadGraph("Resource\\Image\\InGame\\timeing\\Bad.PNG");
+	p_se= LoadSoundMem("Resource/Sounds/SE/Perfect.mp3");
+	g_se= LoadSoundMem("Resource/Sounds/SE/good.mp3");
+	b_se= LoadSoundMem("Resource/Sounds/SE/Butt.mp3");
 
 	check_just = false;
 
@@ -82,14 +85,17 @@ void Score::Evaluate()
 	if (diff <= 10)
 	{
 		evaluation = eEvaluation::ePerfect;
+		PlaySoundMem(p_se, DX_PLAYTYPE_BACK, TRUE);
 	}
 	else if (diff <= 30)
 	{
 		evaluation = eEvaluation::eGood;
+		PlaySoundMem(g_se, DX_PLAYTYPE_BACK, TRUE);
 	}
 	else
 	{
 		evaluation = eEvaluation::eBad;
+		PlaySoundMem(b_se, DX_PLAYTYPE_BACK, TRUE);
 	}
 
 	switch (evaluation)
