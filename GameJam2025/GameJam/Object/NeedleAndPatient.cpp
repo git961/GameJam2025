@@ -113,6 +113,7 @@ void NeedleAndPatient::Initialize()
 
 	is_add_score = false;
 	is_change_column = false;
+
 }
 
 void NeedleAndPatient::Update()
@@ -127,6 +128,7 @@ void NeedleAndPatient::Update()
 		{
 			patient_pos.x += 5;
 			patient_face_pos.x += 5;
+			face_alpha += 10;
 		}
 		if (patient_pos.y < 420)
 		{
@@ -152,6 +154,8 @@ void NeedleAndPatient::Update()
 			effect_pos.y = patient_pos.y-140.0f;
 			effect_pos2.x = patient_pos.x;
 			effect_pos2.y = patient_pos.y-140.0f;
+
+			face_alpha = 255;
 
 			//event_line動かす
 			event_line->Start();
@@ -359,11 +363,13 @@ void NeedleAndPatient::Draw() const
 		SetDrawBright(255,255,255);
 
 		//患者の表情表示
-		DrawRotaGraphF(patient_face_pos.x, patient_face_pos.y, p_size, 0, patient_face[(int)face_state], TRUE);
-
 		//描画ブレンドモードをアルファブレンドにする
-		//SetDrawBlendMode(DX_BLENDMODE_ALPHA, face_alpha);
-		
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, face_alpha);
+		DrawRotaGraphF(patient_face_pos.x, patient_face_pos.y, p_size, 0, patient_face[(int)face_state], TRUE);
+		//アルファブレンドを止める
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, face_alpha);
+
+		/*
 		if (patient_sum <= 50)
 		{
 			//very tired 50以下
@@ -391,7 +397,7 @@ void NeedleAndPatient::Draw() const
 		
 		//アルファブレンドを止める
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, face_alpha);
-
+		*/
 		//DrawFormatString(100, 40, 0x000000, "el_sum:%d", el_scaled_y);
 		DrawFormatString(100, 60, 0x000000, "patient_sum:%d", patient_sum);
 		//DrawFormatString(100, 80, 0x000000, "liquid_y:%d", (int)liquid_pos.y + (int)liquid_size);

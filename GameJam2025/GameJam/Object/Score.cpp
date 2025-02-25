@@ -40,7 +40,6 @@ void Score::Update()
 			check_just = false;
 		}
 	}
-	Evaluate();
 }
 
 void Score::Draw() const
