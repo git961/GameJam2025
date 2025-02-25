@@ -41,6 +41,7 @@ private:
 	int patient_sum;//患者の健康具合
 	int el_scaled_y;//イベントラインの数値を100にしたものを代入
 	int face_alpha;//表情の透過
+	int SE;
 	
 	bool is_next_start;//次のオブジェクトをスタートしていいか
 

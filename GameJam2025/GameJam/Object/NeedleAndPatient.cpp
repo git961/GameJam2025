@@ -37,6 +37,7 @@ NeedleAndPatient::NeedleAndPatient(EventLine *set_class,int set_num)
 	tmp = rm->GetImages("Resource/Image/InGame/stop_bar.png");
 	stop_bar_image.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/face.png", 6, 6, 1, 64, 42);
+	SE = LoadSoundMem("Resource/Sounds/SE/Stings.mp3");
 	for (int i = 0; i < 6; i++)
 	{
 		patient_face.push_back(tmp[i]);
@@ -144,6 +145,10 @@ void NeedleAndPatient::Update()
 		needle_pos.y += 7.0f;
 		if (needle_pos.y > 145)
 		{
+			if (CheckSoundMem(SE) == 0) {
+				PlaySoundMem(SE, DX_PLAYTYPE_BACK,TRUE);
+			}
+
 			//下に落ちきったらy座標を入れてstateを変更する
 			needle_pos.y = 145.0f;
 			state = State::eventline_move;
@@ -159,6 +164,7 @@ void NeedleAndPatient::Update()
 
 			//event_line動かす
 			event_line->Start();
+
 		}
 		break;
 	case State::eventline_move:

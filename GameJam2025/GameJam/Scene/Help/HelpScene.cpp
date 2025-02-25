@@ -34,6 +34,7 @@ void HelpScene::Draw() const
 
 void HelpScene::Finalize()
 {
+	StopSoundMem(BGM); 
 	if (background_image != NULL)
 	{
 		DeleteGraph(background_image);
