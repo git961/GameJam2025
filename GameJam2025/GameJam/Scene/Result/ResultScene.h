@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include<algorithm>
 
 #include "../SceneBase.h"
 
@@ -19,10 +20,10 @@ private:
     string score_str;		//スコア
     string patient_str;			//患者の人数
 
-    string txt_file_path = "C:\\GameJam2025\\GameJam2025\\GameJam\\Resource\\Ranking\\Ranking.txt";
+    string txt_file_path = "Resource\\Ranking\\Ranking.txt";
 
-    int score_array[3];     //スコア配列
-    int patient_array[3];   //患者の人数配列
+    int score_array[4];     //スコア配列
+    int patient_array[4];   //患者の人数配列
     int new_score;			//新しいスコア
     int new_patient;		//新しい患者の人数	
 

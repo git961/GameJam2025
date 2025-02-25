@@ -30,6 +30,7 @@ eSceneType ResultScene::Update()
 	}
 
 	score->Update();
+	ComparisonScore();
 	WriteTxt();
 
 	return GetNowSceneType();
@@ -102,13 +103,25 @@ void ResultScene::WriteTxt()
 //スコア比較処理
 void ResultScene::ComparisonScore()
 {
-	for (int i = 0; i < 3; i++)
-	{
-		if (score_array[i] < new_score)
-		{
-			score_array[i] = new_score;
-			patient_array[i] = new_patient;
+	int old_score;										//Scoreの前回情報
+	int old_patient;									//Patientの前回情報
 
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = i + 1; j < 4; j++)
+		{
+			if (score_array[i] <= score_array[j])
+			{
+				old_score = score_array[i];				//前回情報を変数に入れる
+				old_patient = patient_array[i];
+
+				score_array[i] = score_array[j];		//新しい情報をscore_array[i]に入れる
+				patient_array[i] = patient_array[j];
+
+				score_array[j] = old_score;				//前回情報をscore_array[j]に入れる
+				patient_array[j] = old_patient;
+
+			}
 		}
 	}
 }
