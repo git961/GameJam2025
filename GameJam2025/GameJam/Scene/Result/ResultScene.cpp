@@ -55,7 +55,7 @@ void ResultScene::Draw() const
 	{
 		SetFontSize(24);
 
-		DrawFormatString(300, 203 + (i * 70), GetColor(0, 0, 0), "%d     %d", patient_array[i], score_array[i], TRUE);
+		DrawFormatString(300, 203 + (i * 70), GetColor(0, 0, 0), "%d   %d", patient_array[i], score_array[i], TRUE);
 	}
 
 	SetFontSize(16);
