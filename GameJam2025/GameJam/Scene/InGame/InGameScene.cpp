@@ -10,7 +10,7 @@
 const int MILLISECONDS_PER_SECOND = 1000;
 
 InGameScene::InGameScene() :
-    time(60),    // ここで制限時間を変更できます
+    time(30),    // ここで制限時間を変更できます
     countdown_delay(0),
     countdown_after_timeup(0),   // タイムアップ後のカウントダウン時間 
     gameState(eGameState::ePlaying) // ゲーム状態の初期化
@@ -19,9 +19,17 @@ InGameScene::InGameScene() :
     n_and_p_black = new NeedleAndPatient(event_line, 0);
     n_and_p_gray = new NeedleAndPatient(event_line, 1);
     back_column = new Column;
-    InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
-   /* InGameBGM = LoadSoundMem("");*/
     patient_count = 0;
+
+    //インゲーム画像
+    InGameImage = LoadGraph("Resource/Image/InGame/InGame.png");
+    End = LoadGraph("Resource/Image/InGame/Finish.png");
+    Start = LoadGraph("Resource/Image/InGame/Start.png");
+
+    //カウントダウン用数字画像
+    for (int i = 0; i < 10; i++) {
+        numberImage[i] = LoadGraph(("Resource/Image/InGame/Number/" + std::to_string(i) + ".png").c_str());
+    }
 }
 
 InGameScene::~InGameScene()
@@ -41,7 +49,7 @@ void InGameScene::Initialize()
     countdown_after_timeup = 5;       //終了時の時間
     gameState = eGameState::ePlaying; // ゲーム状態をプレイ中に初期化
     patient_count = 0;
-    countdown_delay = 5;             // START時の遅延を設定
+    countdown_delay = 3;             // START時の遅延を設定
 }
 
 eSceneType InGameScene::Update()
@@ -56,7 +64,7 @@ eSceneType InGameScene::Update()
     // ゲームの状態に応じて処理を分岐
     switch (gameState) {
     case eGameState::ePlaying:// プレイ中の場合
-        if (countdown_delay > 0) {
+        if (countdown_delay >= 0) {
             if (elapsedTime >= MILLISECONDS_PER_SECOND) {
                 countdown_delay--;
                 previousTime = currentTime;
@@ -125,19 +133,24 @@ void InGameScene::Draw() const
 
     score->Draw();
 
-    // ゲーム状態に応じて描画内容を切り替え
     if (gameState == eGameState::ePlaying) {
         if (countdown_delay > 0) {
-            DrawFormatString(300, 400, GetColor(0, 0, 0), "ゲーム開始まで : %d", countdown_delay);//スタート時の場合
+            DrawRotaGraph(330, 240,2,0, numberImage[countdown_delay], TRUE); //スタート時の場合
+        }
+        else if (countdown_delay == 0)
+        {
+            DrawRotaGraph(330, 240, 2, 0,Start, TRUE); //スタート時の場合
         }
         else {
-            DrawFormatString(10, 50, GetColor(0, 0, 0), "残り時間 : %d", time);// プレイ中の場合
+            DrawGraph(10, 50, numberImage[(time / 10) % 10], TRUE); // 十の位を表示
+            DrawGraph(40, 50, numberImage[time%10], TRUE); // 1の位を表示
         }
     }
     else if (gameState == eGameState::eTimeUp) {
-        DrawFormatString(300, 400, GetColor(255, 255, 255), "End %d", countdown_after_timeup);// タイムアップの場合
+        DrawRotaGraph(330, 240, 2, 0, End, TRUE);// タイムアップの場合
     }
 }
+
 
 void InGameScene::Finalize()
 {
