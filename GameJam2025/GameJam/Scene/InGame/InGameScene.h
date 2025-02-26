@@ -26,6 +26,7 @@ private:
     int SE2;
     bool se_once;//seを一回だけ鳴らす用
     int timer_img;//タイマーの文字
+    int help_img;//ヘルプ表示用
 
     Score* score = new Score;
     class EventLine* event_line;
@@ -41,6 +42,8 @@ private:
     eGameState gameState;// ゲームの状態を保持する変数
 
     int patient_count;//さばいた人数のカウント
+
+    bool is_start;//スタートさせて良いか
 
 public:
     InGameScene();

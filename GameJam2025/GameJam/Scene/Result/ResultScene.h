@@ -32,6 +32,7 @@ private:
     int ranking_image;      //ランキングイメージ
     int SE;
     int BGM;
+    int back_img;
 
 public:
     ResultScene();

@@ -13,7 +13,11 @@ private:
     int SE1;
     int SE2;
 
+    bool is_result;
 
+    int end_img;
+    int end_count;
+    int end_frame_cnt;//
 
 public:
     virtual void Initialize() override;

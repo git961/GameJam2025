@@ -14,7 +14,10 @@ void TitleScene::Initialize()
 	BGM = LoadSoundMem("Resource/Sounds/BGM/TitleBGM.mp3");
 	SE1 = LoadSoundMem("Resource/Sounds/SE/Decide.mp3");
 	SE2 = LoadSoundMem("Resource/Sounds/SE/MV.mp3");
-
+	end_img= LoadGraph("Resource/Image/Title/EndImage.png");
+	is_result = false;
+	end_frame_cnt = 0;
+	end_count = 0;
 }
 
 
@@ -22,51 +25,65 @@ void TitleScene::Initialize()
 eSceneType TitleScene::Update()
 {
 	PadInputManager* pad_input = PadInputManager::GetInstance();
-
-	if (CheckSoundMem(BGM) == 0)
-	{
-		PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
-	}
-
-	//Bボタンが押されたら
-	if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
-	{
-		PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
-		
-		switch (cursor_number)
+	if (is_result == false) {
+		if (CheckSoundMem(BGM) == 0)
 		{
-		case 0:
-			//インゲーム画面に移動
-			return eSceneType::eInGame;
-		case 1:
-			
-			return eSceneType::eHelp;
-		case 2:
+			PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
+		}
+
+		//Bボタンが押されたら
+		if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
+		{
+			PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
+
+			switch (cursor_number)
+			{
+			case 0:
+				//インゲーム画面に移動
+				return eSceneType::eInGame;
+			case 1:
+
+				return eSceneType::eHelp;
+			case 2:
+				//return eSceneType::eEnd;
+				is_result = true;
+			default:
+				break;
+			}
+		}
+		SelectCursor();
+	}
+	else
+	{
+		if (end_frame_cnt++ > 60)
+		{
+			end_frame_cnt = 0;
+			end_count++;
+		}
+		if (end_count > 5)
+		{
 			return eSceneType::eEnd;
 
-		default:
-			break;
 		}
+
 	}
-	SelectCursor();
-
-
-
-
 	
-	return GetNowSceneType();
-
-	
-		
+	return GetNowSceneType();	
 }
 
 void TitleScene::Draw() const
 {
-	DrawGraph(0, 0, Title_image, TRUE);
-	DrawExtendGraph(0, 0, 640, 480, Title_image, TRUE);
+	if (is_result == false) {
 
-	DrawGraph(380, cursor_y, arrow_image, TRUE);
+		DrawGraph(0, 0, Title_image, TRUE);
+		DrawExtendGraph(0, 0, 640, 480, Title_image, TRUE);
 
+		DrawGraph(380, cursor_y, arrow_image, TRUE);
+	}
+	else
+	{
+		DrawGraph(0, 0, end_img, TRUE);
+	}
 }
 
 

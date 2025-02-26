@@ -42,6 +42,7 @@ private:
 	int el_scaled_y;//イベントラインの数値を100にしたものを代入
 	int face_alpha;//表情の透過
 	int SE;
+	int black_bar_y;//液体を押し出す画像のｙ座標
 	
 	bool is_next_start;//次のオブジェクトをスタートしていいか
 

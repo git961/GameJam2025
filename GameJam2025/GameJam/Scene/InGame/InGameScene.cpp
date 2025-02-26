@@ -30,11 +30,14 @@ InGameScene::InGameScene() :
     ChangeVolumeSoundMem(150, BGM);
     SE= LoadSoundMem("Resource/Sounds/SE/Whistle.mp3");
     SE2 = LoadSoundMem("Resource/Sounds/SE/MV.mp3"); 
+    help_img = LoadGraph("Resource/Image/InGame/ingamehelp.png");
 
     //カウントダウン用数字画像
     for (int i = 0; i < 10; i++) {
         numberImage[i] = LoadGraph(("Resource/Image/InGame/Number/" + std::to_string(i) + ".png").c_str());
     }
+
+    is_start = false;
 }
 
 InGameScene::~InGameScene()
@@ -63,123 +66,144 @@ eSceneType InGameScene::Update()
     PadInputManager* pad_input = PadInputManager::GetInstance();
 
 
-
-    // 現在の時間を取得
-    unsigned int currentTime = GetNowCount();
-    // 前回のフレームからの経過時間を計算
-    unsigned int elapsedTime = currentTime - previousTime;
-
-    if (se_once == true)
+    if(is_start==false)
     {
-        PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
-        se_once = false;
+        //Bボタンが押されたら
+        if (pad_input->GetKeyInputState(XINPUT_BUTTON_B) == eInputState::ePress)
+        {
+            is_start = true;
+            previousTime = GetNowCount();     // 前回の時間を初期化
+
+        }
     }
+    else
+    {
+        // 現在の時間を取得
+        unsigned int currentTime = GetNowCount();
+        // 前回のフレームからの経過時間を計算
+        unsigned int elapsedTime = currentTime - previousTime;
 
-    // ゲームの状態に応じて処理を分岐
-    switch (gameState) {
-    case eGameState::ePlaying:// プレイ中の場合
-        if (CheckSoundMem(BGM) == 0)
+
+        if (se_once == true)
         {
-            PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
+            PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
+            se_once = false;
         }
 
-        if (countdown_delay == 1)
-        {
-            PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
-        }
-
-
-        if (countdown_delay >= 0) {
-            if (elapsedTime >= MILLISECONDS_PER_SECOND) {
-                if(countdown_delay>1)
-                {
-                    PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
-                }
-                countdown_delay--;
-                previousTime = currentTime;
+        // ゲームの状態に応じて処理を分岐
+        switch (gameState) {
+        case eGameState::ePlaying:// プレイ中の場合
+            if (CheckSoundMem(BGM) == 0)
+            {
+                PlaySoundMem(BGM, DX_PLAYTYPE_LOOP, FALSE);
             }
 
-        }
-        else{
-        if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
-            time--;
-            previousTime = currentTime;// 前回の時間を更新
-
-            if (time <= 0) {
-                time = 0;
-                StopSoundMem(BGM); 
+            if (countdown_delay == 1)
+            {
                 PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
-                gameState = eGameState::eTimeUp;
-                previousTime = currentTime; // カウントダウン開始時間を記録
             }
-        }
-        // 各オブジェクトの更新
-        event_line->Update();
-        n_and_p_black->Update();
-        n_and_p_gray->Update();
-        score->Update();
-        //score->Update();
-        back_column->AnimUpdate(true);
 
-        //スコアを加算してもよかったら
-        if (CheckAddScoreNAndP() == true)
-        {
-            score->AddScore(GetRedLine(), event_line->GetLineStopY());
-            patient_count++;
-        }
-       }
-        Start_NAndP();
-        break;
 
-    case eGameState::eTimeUp://タイムアップの場合
+            if (countdown_delay >= 0) {
+                if (elapsedTime >= MILLISECONDS_PER_SECOND) {
+                    if (countdown_delay > 1)
+                    {
+                        PlaySoundMem(SE2, DX_PLAYTYPE_BACK, TRUE);
+                    }
+                    countdown_delay--;
+                    previousTime = currentTime;
+                }
 
-        if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
-            countdown_after_timeup--;
-            previousTime = currentTime;// 前回の時間を更新
-
-            if (countdown_after_timeup <= 0) {
-                SaveNewScore();
-                gameState = eGameState::eToResult;// ゲーム状態をリザルト画面遷移に変更
-                return eSceneType::eResult; // リザルト画面に移行
             }
-        }
-        break;
+            else {
+                if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
+                    time--;
+                    previousTime = currentTime;// 前回の時間を更新
 
-    case eGameState::eToResult:// リザルト画面遷移の場合
-        return eSceneType::eResult; // リザルト画面に遷移
+                    if (time <= 0) {
+                        time = 0;
+                        StopSoundMem(BGM);
+                        PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
+                        gameState = eGameState::eTimeUp;
+                        previousTime = currentTime; // カウントダウン開始時間を記録
+                    }
+                }
+                // 各オブジェクトの更新
+                event_line->Update();
+                n_and_p_black->Update();
+                n_and_p_gray->Update();
+                score->Update();
+                //score->Update();
+                back_column->AnimUpdate(true);
+
+                //スコアを加算してもよかったら
+                if (CheckAddScoreNAndP() == true)
+                {
+                    score->AddScore(GetRedLine(), event_line->GetLineStopY());
+                    patient_count++;
+                }
+            }
+            Start_NAndP();
+            break;
+
+        case eGameState::eTimeUp://タイムアップの場合
+
+            if (elapsedTime >= MILLISECONDS_PER_SECOND) {// 1秒以上経過した場合
+                countdown_after_timeup--;
+                previousTime = currentTime;// 前回の時間を更新
+
+                if (countdown_after_timeup <= 0) {
+                    SaveNewScore();
+                    gameState = eGameState::eToResult;// ゲーム状態をリザルト画面遷移に変更
+                    return eSceneType::eResult; // リザルト画面に移行
+                }
+            }
+            break;
+
+        case eGameState::eToResult:// リザルト画面遷移の場合
+            return eSceneType::eResult; // リザルト画面に遷移
+        }
     }
     return __super::Update();
 }
 
 void InGameScene::Draw() const
 {
-    DrawGraph(0, 0, InGameImage, TRUE);
-    __super::Draw();
-    //DrawFormatString(10, 10, GetColor(0, 0, 0),"patient_cnt%d\n",patient_count);
-    //DrawFormatString(10, 30, GetColor(0, 0, 0),"total_score%d\n",score->GetTotalScore());
-    back_column->Draw();
-    event_line->Draw();
-    n_and_p_black->Draw();
-    n_and_p_gray->Draw();
 
-    score->Draw();
-
-    if (gameState == eGameState::ePlaying) {
-        if (countdown_delay > 0) {
-            DrawRotaGraph(330, 240,2,0, numberImage[countdown_delay], TRUE); //スタート時の場合
-        }
-        else if (countdown_delay == 0)
-        {
-            DrawRotaGraph(330, 240, 2, 0,Start, TRUE); //スタート時の場合
-        }
-        else {
-            DrawGraph(10, 5, timer_img, TRUE);
-            DrawGraph(20, 50, numberImage[(time / 10) % 10], TRUE); // 十の位を表示
-            DrawGraph(50, 50, numberImage[time%10], TRUE); // 1の位を表示
-        }
+    if (is_start == false)
+    {
+        DrawGraph(0, 0, help_img, TRUE);
     }
-    else if (gameState == eGameState::eTimeUp) {
-        DrawRotaGraph(330, 240, 2, 0, End, TRUE);// タイムアップの場合
+    else 
+    {
+        DrawGraph(0, 0, InGameImage, TRUE);
+        __super::Draw();
+        //DrawFormatString(10, 10, GetColor(0, 0, 0),"patient_cnt%d\n",patient_count);
+        //DrawFormatString(10, 30, GetColor(0, 0, 0),"total_score%d\n",score->GetTotalScore());
+        back_column->Draw();
+        event_line->Draw();
+        n_and_p_black->Draw();
+        n_and_p_gray->Draw();
+
+        score->Draw();
+
+        if (gameState == eGameState::ePlaying) {
+            if (countdown_delay > 0) {
+                DrawRotaGraph(330, 240, 2, 0, numberImage[countdown_delay], TRUE); //スタート時の場合
+            }
+            else if (countdown_delay == 0)
+            {
+                DrawRotaGraph(330, 240, 2, 0, Start, TRUE); //スタート時の場合
+            }
+            else {
+                DrawGraph(10, 5, timer_img, TRUE);
+                DrawGraph(20, 50, numberImage[(time / 10) % 10], TRUE); // 十の位を表示
+                DrawGraph(50, 50, numberImage[time % 10], TRUE); // 1の位を表示
+            }
+        }
+        else if (gameState == eGameState::eTimeUp) {
+            DrawRotaGraph(330, 240, 2, 0, End, TRUE);// タイムアップの場合
+        }
     }
 }
 

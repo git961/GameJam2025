@@ -16,8 +16,10 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	ranking_image = LoadGraph("Resource\\Ranking\\ranking.png");
+	back_img = LoadGraph("Resource/Image/InGame/back.png");
 	BGM = LoadSoundMem("Resource/Sounds/BGM/ResultorendBGM.mp3");
 	SE = LoadSoundMem("Resource/Sounds/SE/MV.mp3");
+	ChangeVolumeSoundMem(150, BGM);
 	score->Initialize();
 	ReadTxt();
 }
@@ -46,8 +48,8 @@ eSceneType ResultScene::Update()
 
 void ResultScene::Draw() const
 {	
-	DrawString(10, 10, "Result\n", GetColor(255, 255, 255));
-	DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
+	//DrawString(10, 10, "Result\n", GetColor(255, 255, 255));
+	//DrawString(10, 26, "B:Title", GetColor(255, 255, 255));
 	DrawExtendGraph(0, 0, 640, 480, ranking_image, TRUE);
 	
 
@@ -65,6 +67,8 @@ void ResultScene::Draw() const
 	DrawFormatString(368, 430, GetColor(0, 0, 0), "%d", now_player_score, TRUE);
 
 	score->Draw();
+
+	DrawGraph(480, 450, back_img,TRUE);
 }
 
 void ResultScene::Finalize()

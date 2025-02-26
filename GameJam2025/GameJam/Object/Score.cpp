@@ -25,6 +25,7 @@ void Score::Initialize()
 	p_se= LoadSoundMem("Resource/Sounds/SE/Perfect.mp3");
 	g_se= LoadSoundMem("Resource/Sounds/SE/good.mp3");
 	b_se= LoadSoundMem("Resource/Sounds/SE/Butt.mp3");
+	ChangeVolumeSoundMem(255, p_se);
 
 	check_just = false;
 

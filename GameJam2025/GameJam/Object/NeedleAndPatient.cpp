@@ -30,6 +30,8 @@ NeedleAndPatient::NeedleAndPatient(EventLine *set_class,int set_num)
 	std::vector<int> tmp;
 	tmp = rm->GetImages("Resource/Image/InGame/syring.png");
 	needle_image.push_back(tmp[0]);
+	tmp = rm->GetImages("Resource/Image/InGame/push.png");
+	needle_image.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/patient.png");
 	patient_image.push_back(tmp[0]);
 	tmp = rm->GetImages("Resource/Image/InGame/liquid.png");
@@ -114,6 +116,7 @@ void NeedleAndPatient::Initialize()
 
 	is_add_score = false;
 	is_change_column = false;
+	black_bar_y=-109;
 
 }
 
@@ -140,6 +143,7 @@ void NeedleAndPatient::Update()
 		{
 			p_size += 0.1;
 		}
+		
 
 		//注射針が下に落ちてくる
 		needle_pos.y += 7.0f;
@@ -265,15 +269,15 @@ void NeedleAndPatient::Update()
 			face_state = Face::fine;
 		}
 
-		if (liquid_size <= event_line->GetLineStopY())
+		if (liquid_size <= event_line->GetLineStopY()-4)
 		{
 			liquid_size += 2;
 		}
 
 		//液が下がり切って、表情が変わり切るまで待つ
-		if (event_line->GetLineStopY() <= liquid_size &&count_sum>=patient_sum)
+		if (event_line->GetLineStopY()-4 <= liquid_size &&count_sum>=patient_sum)
 		{
-			liquid_size = (float)event_line->GetLineStopY();
+			liquid_size = (float)event_line->GetLineStopY()-4;
 			//イベントラインを止める
 			event_line->Stop();
 			count_sum = patient_sum;
@@ -338,13 +342,18 @@ void NeedleAndPatient::Draw() const
 			//20.0fはneedle_imageとの画像の中心の差
 			DrawRotaGraphF(needle_pos.x, needle_pos.y - 19.0f, 1, 0, liquid_image[0], TRUE);
 			//液体隠す用
-			DrawBoxAA(needle_pos.x - 70.0f, needle_pos.y, needle_pos.x + 70.0f, needle_pos.y, 0x000000, TRUE);
+			DrawGraph(250, (int)needle_pos.y-370,needle_image[1], TRUE);
 		}
 		else
 		{
 			DrawExtendGraphF(liquid_pos.x,  liquid_size, liquid_pos.x + 140.0f, liquid_pos.y + 240.0f, liquid_image[0],TRUE);
 			//液体隠す用
-			DrawBoxAA(needle_pos.x - 70.0f, liquid_size, needle_pos.x + 70.0f, liquid_size + 10.0f, 0x000000, TRUE);
+			if (liquid_size < 250) {
+				DrawRotaGraphF(needle_pos.x, black_bar_y + liquid_size, 1, 0, needle_image[1], TRUE);
+			}
+			else {
+				DrawRotaGraphF(needle_pos.x, 141.0f, 1, 0, needle_image[1], TRUE);
+			}
 		}
 		if (state == State::eventline_move)
 		{
@@ -407,10 +416,10 @@ void NeedleAndPatient::Draw() const
 		*/
 		//DrawFormatString(100, 40, 0x000000, "el_sum:%d", el_scaled_y);
 		//DrawFormatString(100, 60, 0x000000, "patient_sum:%d", patient_sum);
-		//DrawFormatString(100, 80, 0x000000, "liquid_y:%d", (int)liquid_pos.y + (int)liquid_size);
+		//DrawFormatString(100, 80, 0x000000, "liquid_y:%d", (int)liquid_size);
 		//DrawFormatString(100, 100, 0x000000, "stop_y:%d", stop_y);
 		//DrawFormatString(100, 120, 0x000000, "eventline_y:%d", event_line->GetLineStopY());
-		//DrawFormatString(100, 120, 0x000000, "needle_x:%f", needle_pos.x);
+		//DrawFormatString(100, 120, 0x000000, "needle_y:%f", needle_pos.y);
 		//DrawFormatString(100, 120, 0x000000, "liquid_size:%f", liquid_size);
 
 		EffectDraw();
