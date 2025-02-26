@@ -116,7 +116,7 @@ void NeedleAndPatient::Initialize()
 
 	is_add_score = false;
 	is_change_column = false;
-	black_bar_y=-109;
+	black_bar_y = -228;
 
 }
 
@@ -269,13 +269,16 @@ void NeedleAndPatient::Update()
 			face_state = Face::fine;
 		}
 
-		if (liquid_size <= event_line->GetLineStopY()-4)
+		if (liquid_size <= event_line->GetLineStopY()-3)
 		{
 			liquid_size += 2;
+			if (liquid_size > 10) {
+				black_bar_y += 2;
+			}
 		}
 
 		//液が下がり切って、表情が変わり切るまで待つ
-		if (event_line->GetLineStopY()-4 <= liquid_size &&count_sum>=patient_sum)
+		if (event_line->GetLineStopY()-3 <= liquid_size &&count_sum>=patient_sum)
 		{
 			liquid_size = (float)event_line->GetLineStopY()-4;
 			//イベントラインを止める
@@ -283,7 +286,7 @@ void NeedleAndPatient::Update()
 			count_sum = patient_sum;
 
 			//patient_sumが94以上104以下ならperfectに入れる
-			if (patient_sum >= 96 && patient_sum <= 104)
+			if (patient_sum >= 97 && patient_sum <= 103)
 			{
 				//perfect 100
 				face_state = Face::perfect;
@@ -340,7 +343,7 @@ void NeedleAndPatient::Draw() const
 		if (state == State::come_out)
 		{
 			//20.0fはneedle_imageとの画像の中心の差
-			DrawRotaGraphF(needle_pos.x, needle_pos.y - 19.0f, 1, 0, liquid_image[0], TRUE);
+			DrawRotaGraphF(needle_pos.x, needle_pos.y - 18.0f, 1, 0, liquid_image[0], TRUE);
 			//液体隠す用
 			DrawGraph(250, (int)needle_pos.y-370,needle_image[1], TRUE);
 		}
@@ -348,12 +351,7 @@ void NeedleAndPatient::Draw() const
 		{
 			DrawExtendGraphF(liquid_pos.x,  liquid_size, liquid_pos.x + 140.0f, liquid_pos.y + 240.0f, liquid_image[0],TRUE);
 			//液体隠す用
-			if (liquid_size < 250) {
-				DrawRotaGraphF(needle_pos.x, black_bar_y + liquid_size, 1, 0, needle_image[1], TRUE);
-			}
-			else {
-				DrawRotaGraphF(needle_pos.x, 141.0f, 1, 0, needle_image[1], TRUE);
-			}
+			DrawGraph((int)needle_pos.x-70, black_bar_y, needle_image[1], TRUE);
 		}
 		if (state == State::eventline_move)
 		{

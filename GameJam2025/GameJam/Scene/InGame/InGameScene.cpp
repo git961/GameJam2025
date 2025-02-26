@@ -29,6 +29,7 @@ InGameScene::InGameScene() :
     BGM = LoadSoundMem("Resource/Sounds/BGM/ingameBGM.mp3");
     ChangeVolumeSoundMem(150, BGM);
     SE= LoadSoundMem("Resource/Sounds/SE/Whistle.mp3");
+    start_se = LoadSoundMem("Resource/Sounds/SE/StartSe.mp3");
     SE2 = LoadSoundMem("Resource/Sounds/SE/MV.mp3"); 
     help_img = LoadGraph("Resource/Image/InGame/ingamehelp.png");
 
@@ -100,7 +101,7 @@ eSceneType InGameScene::Update()
 
             if (countdown_delay == 1)
             {
-                PlaySoundMem(SE, DX_PLAYTYPE_BACK, TRUE);
+                PlaySoundMem(start_se, DX_PLAYTYPE_BACK, TRUE);
             }
 
 

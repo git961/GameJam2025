@@ -24,6 +24,7 @@ private:
     int BGM;
     int SE;
     int SE2;
+    int start_se;
     bool se_once;//seを一回だけ鳴らす用
     int timer_img;//タイマーの文字
     int help_img;//ヘルプ表示用
